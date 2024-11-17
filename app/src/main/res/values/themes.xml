@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.Inflatify" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">@color/white</item>
+    </style>
+
+    <style name="CustomSearchBarTheme" parent="">
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+</resources>

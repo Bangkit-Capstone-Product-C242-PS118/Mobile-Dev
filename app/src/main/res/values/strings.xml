@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Inflatify</string>
+    <string name="title_home">Home</string>
+    <string name="title_upcoming">Upcoming Events</string>
+    <string name="title_finished">Finished Events</string>
+    <string name="title_save">Saved Item</string>
+    <string name="title_settings">Settings</string>
+    <string name="event_image">Event Image</string>
+    <string name="regis">Registrasi</string>
+    <string name="begin_time">Waktu Mulai: %1$s</string>
+    <string name="organizer">Penyelenggara Acara: %1$s</string>
+    <string name="remaining_quota">Sisa Kuota: %1$d</string>
+    <string name="fav">Favorit</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_ket">Enable Dark Mode</string>
+    <string name="notif">Daily Reminder</string>
+    <string name="notif_ket">Enable Notification</string>
+    <string name="search_hint">Search</string>
+</resources>
