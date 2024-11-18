@@ -8,10 +8,10 @@ import com.bumptech.glide.Glide
 import com.capstone.inflatify.data.response.ListEventsItem
 import com.capstone.inflatify.databinding.ItemComodityBinding
 
-class EventAdapter (
+class MainAdapter (
     private var listEvents: List<ListEventsItem>,
     private val onItemClick: (ListEventsItem) -> Unit
-    ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+    ) : RecyclerView.Adapter<MainAdapter.EventViewHolder>() {
         inner class EventViewHolder(private val binding: ItemComodityBinding) : RecyclerView.ViewHolder(binding.root) {
             fun bind(event: ListEventsItem) {
                 with(binding) {

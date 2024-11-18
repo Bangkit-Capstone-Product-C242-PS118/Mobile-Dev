@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.inflatify.R
 import com.capstone.inflatify.data.response.ListEventsItem
 import com.capstone.inflatify.databinding.FragmentHomeBinding
-import com.capstone.inflatify.ui.EventAdapter
+import com.capstone.inflatify.ui.MainAdapter
 import com.capstone.inflatify.ui.detail.DetailEventActivity
 import com.capstone.inflatify.ui.detail.DetailEventActivity.Companion.EVENT_ID_KEY
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var eventAdapter: EventAdapter
+    private lateinit var mainAdapter: MainAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,14 +71,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setEventDataFinished(events: List<ListEventsItem>) {
-        eventAdapter = EventAdapter(events) { selectedEvent ->
+        mainAdapter = MainAdapter(events) { selectedEvent ->
             val intent = Intent(context, DetailEventActivity::class.java).apply {
                 putExtra(EVENT_ID_KEY, selectedEvent.id.toString())
             }
             startActivity(intent)
         }
-        binding.recyclerViewFinished.adapter = eventAdapter
-        eventAdapter.notifyDataSetChanged()
+        binding.recyclerViewFinished.adapter = mainAdapter
+        mainAdapter.notifyDataSetChanged()
     }
 
     private fun showLoading(isLoading: Boolean) {
