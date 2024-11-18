@@ -7,6 +7,7 @@
     <string name="title_settings">Settings</string>
     <string name="event_image">Event Image</string>
     <string name="regis">Registrasi</string>
+    <string name="comodity">Comodity Name</string>
     <string name="begin_time">Waktu Mulai: %1$s</string>
     <string name="organizer">Penyelenggara Acara: %1$s</string>
     <string name="remaining_quota">Sisa Kuota: %1$d</string>
