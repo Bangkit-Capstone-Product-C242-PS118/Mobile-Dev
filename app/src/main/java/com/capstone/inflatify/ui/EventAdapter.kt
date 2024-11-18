@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 import com.capstone.inflatify.data.response.ListEventsItem
-import com.capstone.inflatify.databinding.ItemEventsBinding
+import com.capstone.inflatify.databinding.ItemComodityBinding
 
 class EventAdapter (
     private var listEvents: List<ListEventsItem>,
     private val onItemClick: (ListEventsItem) -> Unit
     ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
-        inner class EventViewHolder(private val binding: ItemEventsBinding) : RecyclerView.ViewHolder(binding.root) {
+        inner class EventViewHolder(private val binding: ItemComodityBinding) : RecyclerView.ViewHolder(binding.root) {
             fun bind(event: ListEventsItem) {
                 with(binding) {
                     tvComodity.text = event.name
@@ -29,7 +29,7 @@ class EventAdapter (
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-            val binding = ItemEventsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding = ItemComodityBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return EventViewHolder(binding)
         }
 
