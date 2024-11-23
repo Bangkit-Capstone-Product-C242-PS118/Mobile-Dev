@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.capstone.inflatify.R
-import com.capstone.inflatify.databinding.ActivityDetailEventBinding
+import com.capstone.pantauharga.R
 import com.capstone.pantauharga.database.FavoriteEvents
 import com.capstone.pantauharga.database.FavoriteRoomDatabase
+import com.capstone.pantauharga.databinding.ActivityDetailEventBinding
 import com.capstone.pantauharga.repository.EventsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
