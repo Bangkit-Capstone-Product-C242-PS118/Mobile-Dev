@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Inflatify"
+rootProject.name = "PantauHarga"
 include(":app")
  

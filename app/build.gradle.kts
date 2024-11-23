@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.capstone.inflatify"
+    namespace = "com.capstone.pantauharga"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.capstone.inflatify"
+        applicationId = "com.capstone.pantauharga"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
