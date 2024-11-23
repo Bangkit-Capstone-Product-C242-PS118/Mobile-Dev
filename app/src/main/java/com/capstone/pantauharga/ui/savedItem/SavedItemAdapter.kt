@@ -30,6 +30,7 @@ class SavedItemAdapter(private val onItemClick: (FavoriteEvents) -> Unit, privat
         }
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val binding = ItemSaveBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavoriteViewHolder(binding)

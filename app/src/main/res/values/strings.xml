@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Inflatify</string>
+    <string name="app_name">PantauHarga</string>
     <string name="title_home">Home</string>
     <string name="title_upcoming">Upcoming Events</string>
     <string name="title_finished">Finished Events</string>
