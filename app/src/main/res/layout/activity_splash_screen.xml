@@ -9,9 +9,9 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="230dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/splash_icon"
+        android:src="@drawable/pantau_harga_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
