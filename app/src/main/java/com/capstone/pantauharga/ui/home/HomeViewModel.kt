@@ -4,13 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.capstone.pantauharga.data.response.DataItem
+import com.capstone.pantauharga.data.response.DataItemProvinsi
 import com.capstone.pantauharga.data.response.ListEventsItem
 import com.capstone.pantauharga.data.retrofit.ApiConfig
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
-    private val _upcomingEvents = MutableLiveData<List<ListEventsItem>>()
-    val upcomingEvents: LiveData<List<ListEventsItem>> get() = _upcomingEvents
+    private val _komoditas = MutableLiveData<List<DataItem>>()
+    val komoditas: LiveData<List<DataItem>> get() = _komoditas
+
+    private val _provinsi = MutableLiveData<List<DataItemProvinsi>>()
+    val provinsi: LiveData<List<DataItemProvinsi>> get() = _provinsi
+
 
     private val _finishedEvents = MutableLiveData<List<ListEventsItem>>()
     val finishedEvents: LiveData<List<ListEventsItem>> get() = _finishedEvents
@@ -22,18 +28,50 @@ class HomeViewModel : ViewModel() {
     val error: LiveData<Boolean> = _error
 
     init {
-        eventsUpcoming()
         eventsFinished()
+        komoditas()
+        provinsi()
     }
 
-    private fun eventsUpcoming() {
+//    private fun eventsUpcoming() {
+//        _loading.value = true
+//
+//        viewModelScope.launch {
+//            try {
+//                val response = ApiConfig.getApiService().getEvents(1)
+//                _loading.value = false
+//                _upcomingEvents.postValue(response.listEvents)
+//            } catch (e: Exception) {
+//                _loading.value = false
+//                setError(true)
+//            }
+//        }
+//    }
+
+
+    private fun komoditas() {
         _loading.value = true
 
         viewModelScope.launch {
             try {
-                val response = ApiConfig.getApiService().getEvents(1)
+                val responseKomoditas = ApiConfig.getApiService().getKomoditas()
                 _loading.value = false
-                _upcomingEvents.postValue(response.listEvents)
+                _komoditas.postValue(responseKomoditas.data)
+            } catch (e: Exception) {
+                _loading.value = false
+                setError(true)
+            }
+        }
+    }
+
+    private fun provinsi() {
+        _loading.value = true
+
+        viewModelScope.launch {
+            try {
+                val responseProvinsi= ApiConfig.getApiService().getKota()
+                _loading.value = false
+                _provinsi.postValue(responseProvinsi.data)
             } catch (e: Exception) {
                 _loading.value = false
                 setError(true)

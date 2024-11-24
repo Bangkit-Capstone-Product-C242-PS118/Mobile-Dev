@@ -18,7 +18,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_URL", "\"https://event-api.dicoding.dev/\"")
+        buildConfigField("String", "BASE_URL", "\"https://mocki.io/v1/\"")
     }
 
     buildTypes {

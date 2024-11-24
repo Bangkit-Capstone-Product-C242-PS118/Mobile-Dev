@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.pantauharga.R
+import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.data.response.ListEventsItem
 import com.capstone.pantauharga.databinding.FragmentHomeBinding
+import com.capstone.pantauharga.ui.KomoditasAdapter
 import com.capstone.pantauharga.ui.MainAdapter
 import com.capstone.pantauharga.ui.detail.DetailEventActivity
 import com.capstone.pantauharga.ui.detail.DetailEventActivity.Companion.EVENT_ID_KEY
@@ -24,6 +26,8 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mainAdapter: MainAdapter
+    private lateinit var komoditasAdapter: KomoditasAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +39,8 @@ class HomeFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.hide()
 
         setupRecyclerViews()
+
+        viewModel.komoditas.observe(viewLifecycleOwner) { komoditas -> setKomoditas(komoditas) }
 
         viewModel.finishedEvents.observe(viewLifecycleOwner) { events -> setEventDataFinished(events) }
 
@@ -79,6 +85,17 @@ class HomeFragment : Fragment() {
         }
         binding.recyclerViewFinished.adapter = mainAdapter
         mainAdapter.notifyDataSetChanged()
+    }
+
+    private fun setKomoditas(komoditas: List<DataItem>) {
+        komoditasAdapter = KomoditasAdapter(komoditas) { selectedKomoditas ->
+            val intent = Intent(context, DetailEventActivity::class.java).apply {
+                putExtra(EVENT_ID_KEY, selectedKomoditas.id.toString())
+            }
+            startActivity(intent)
+        }
+        binding.recyclerViewFinished.adapter = komoditasAdapter
+        komoditasAdapter.notifyDataSetChanged()
     }
 
     private fun showLoading(isLoading: Boolean) {
