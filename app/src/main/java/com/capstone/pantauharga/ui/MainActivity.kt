@@ -25,14 +25,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         settingPreferences = SettingPreferences.getInstance(dataStore)
         val settingsViewModel = SettingsViewModel(settingPreferences)
         settingsViewModel.getThemeSettings().observe(this) { isDarkMode ->
             applyTheme(isDarkMode)
         }
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
 
@@ -46,12 +46,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
     }
-
-
-
-
 
     private fun applyTheme(isDarkMode: Boolean) {
         if (isDarkMode) {
