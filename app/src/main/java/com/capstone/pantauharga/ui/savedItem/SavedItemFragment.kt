@@ -11,8 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.pantauharga.database.FavoriteEvents
 import com.capstone.pantauharga.databinding.FragmentSavedItemBinding
-import com.capstone.pantauharga.ui.detail.DetailEventActivity
-import com.capstone.pantauharga.ui.detail.DetailEventActivity.Companion.EVENT_ID_KEY
+import com.capstone.pantauharga.ui.detail.DetailComodityActivity
 
 
 class SavedItemFragment : Fragment() {
@@ -45,9 +44,7 @@ class SavedItemFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = SavedItemAdapter(
             onItemClick = { selectedEvent ->
-                val intent = Intent(context, DetailEventActivity::class.java).apply {
-                    putExtra(EVENT_ID_KEY, selectedEvent.id)
-                }
+                val intent = Intent(context, DetailComodityActivity::class.java)
                 startActivity(intent)
             },
             onUnfavoriteClick = { event ->

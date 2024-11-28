@@ -15,8 +15,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.capstone.pantauharga.R
 import com.capstone.pantauharga.data.retrofit.ApiConfig
-import com.capstone.pantauharga.ui.detail.DetailEventActivity
-import com.capstone.pantauharga.ui.detail.DetailEventActivity.Companion.EVENT_ID_KEY
+import com.capstone.pantauharga.ui.detail.DetailComodityActivity
 
 class DailyReminderWorker(private val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
@@ -50,8 +49,7 @@ class DailyReminderWorker(private val context: Context, workerParams: WorkerPara
         }
         notificationManagerService.createNotificationChannel(channel)
 
-        val detailIntent = Intent(context, DetailEventActivity::class.java).apply {
-            putExtra(EVENT_ID_KEY, eventId.toString())
+        val detailIntent = Intent(context, DetailComodityActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
