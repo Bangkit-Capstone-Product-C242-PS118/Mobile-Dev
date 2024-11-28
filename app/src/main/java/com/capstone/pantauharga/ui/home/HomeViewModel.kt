@@ -14,9 +14,6 @@ class HomeViewModel : ViewModel() {
     private val _komoditas = MutableLiveData<List<DataItem>>()
     val komoditas: LiveData<List<DataItem>> get() = _komoditas
 
-    private val _provinsi = MutableLiveData<List<DataItemProvinsi>>()
-    val provinsi: LiveData<List<DataItemProvinsi>> get() = _provinsi
-
 
     private val _finishedEvents = MutableLiveData<List<ListEventsItem>>()
     val finishedEvents: LiveData<List<ListEventsItem>> get() = _finishedEvents
@@ -28,9 +25,8 @@ class HomeViewModel : ViewModel() {
     val error: LiveData<Boolean> = _error
 
     init {
-        eventsFinished()
+//        eventsFinished()
         komoditas()
-        provinsi()
     }
 
 //    private fun eventsUpcoming() {
@@ -64,35 +60,22 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    private fun provinsi() {
-        _loading.value = true
 
-        viewModelScope.launch {
-            try {
-                val responseProvinsi= ApiConfig.getApiService().getKota()
-                _loading.value = false
-                _provinsi.postValue(responseProvinsi.data)
-            } catch (e: Exception) {
-                _loading.value = false
-                setError(true)
-            }
-        }
-    }
 
-    private fun eventsFinished() {
-        _loading.value = true
-
-        viewModelScope.launch {
-            try {
-                val response = ApiConfig.getApiService().getEvents(0)
-                _loading.value = false
-                _finishedEvents.postValue(response.listEvents)
-            } catch (e: Exception) {
-                _loading.value = false
-                setError(true)
-            }
-        }
-    }
+//    private fun eventsFinished() {
+//        _loading.value = true
+//
+//        viewModelScope.launch {
+//            try {
+//                val response = ApiConfig.getApiService().getEvents(0)
+//                _loading.value = false
+//                _finishedEvents.postValue(response.listEvents)
+//            } catch (e: Exception) {
+//                _loading.value = false
+//                setError(true)
+//            }
+//        }
+//    }
 
     fun setError(value: Boolean) {
         _error.value = value

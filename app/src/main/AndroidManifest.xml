@@ -29,7 +29,10 @@
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
+        <activity
+            android:name=".ui.provinsi.ProvinsiActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -12,12 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.pantauharga.R
 import com.capstone.pantauharga.data.response.DataItem
-import com.capstone.pantauharga.data.response.ListEventsItem
 import com.capstone.pantauharga.databinding.FragmentHomeBinding
 import com.capstone.pantauharga.ui.KomoditasAdapter
-import com.capstone.pantauharga.ui.MainAdapter
-import com.capstone.pantauharga.ui.detail.DetailEventActivity
-import com.capstone.pantauharga.ui.detail.DetailEventActivity.Companion.EVENT_ID_KEY
+import com.capstone.pantauharga.ui.provinsi.ProvinsiActivity
+import com.capstone.pantauharga.ui.provinsi.ProvinsiActivity.Companion.EVENT_ID_KEY
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 
@@ -25,9 +23,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var mainAdapter: MainAdapter
-    private lateinit var komoditasAdapter: KomoditasAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +36,6 @@ class HomeFragment : Fragment() {
         setupRecyclerViews()
 
         viewModel.komoditas.observe(viewLifecycleOwner) { komoditas -> setKomoditas(komoditas) }
-
-        viewModel.finishedEvents.observe(viewLifecycleOwner) { events -> setEventDataFinished(events) }
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             showLoading(isLoading)
@@ -67,40 +60,24 @@ class HomeFragment : Fragment() {
 
         searchBar.background = materialShapeDrawable
 
-
         return binding.root
-
     }
 
     private fun setupRecyclerViews() {
         binding.recyclerViewFinished.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun setEventDataFinished(events: List<ListEventsItem>) {
-        mainAdapter = MainAdapter(events) { selectedEvent ->
-            val intent = Intent(context, DetailEventActivity::class.java).apply {
-                putExtra(EVENT_ID_KEY, selectedEvent.id.toString())
-            }
-            startActivity(intent)
-        }
-        binding.recyclerViewFinished.adapter = mainAdapter
-        mainAdapter.notifyDataSetChanged()
-    }
-
     private fun setKomoditas(komoditas: List<DataItem>) {
-        komoditasAdapter = KomoditasAdapter(komoditas) { selectedKomoditas ->
-            val intent = Intent(context, DetailEventActivity::class.java).apply {
-                putExtra(EVENT_ID_KEY, selectedKomoditas.id.toString())
+        val komoditasAdapter = KomoditasAdapter(komoditas) { event ->
+            val intent = Intent(activity, ProvinsiActivity::class.java).apply {
+                putExtra(EVENT_ID_KEY, event.id.toString())
             }
             startActivity(intent)
         }
         binding.recyclerViewFinished.adapter = komoditasAdapter
-        komoditasAdapter.notifyDataSetChanged()
     }
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
-
 }
