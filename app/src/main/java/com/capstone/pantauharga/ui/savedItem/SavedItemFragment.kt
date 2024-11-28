@@ -38,6 +38,7 @@ class SavedItemFragment : Fragment() {
                 viewModel.setError(false)
             }
         }
+
         return binding.root
     }
 

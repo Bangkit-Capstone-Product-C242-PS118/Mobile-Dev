@@ -92,7 +92,6 @@
             android:text="Normal Price" />
     </LinearLayout>
 
-
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart_inflation"
         android:layout_width="0dp"
