@@ -14,34 +14,6 @@ import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.data.response.DataItemProvinsi
 import com.capstone.pantauharga.databinding.ActivityDetailBinding
 
-//class DetailActivity : AppCompatActivity() {
-//    private lateinit var binding: ActivityDetailBinding
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        binding = ActivityDetailBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        supportActionBar?.hide()
-//
-//        loadFragment(InflationPredictFragment())
-//
-//        binding.btnInflationPredict.setOnClickListener {
-//            loadFragment(InflationPredictFragment())
-//        }
-//
-//        binding.btnNormalPrice.setOnClickListener {
-//            loadFragment(NormalPriceFragment())
-//        }
-//    }
-//
-//    private fun loadFragment(fragment: Fragment) {
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.fragment_container, fragment)
-//            .commit()
-//    }
-//}
-
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val viewModel: DetailViewModel by viewModels()
