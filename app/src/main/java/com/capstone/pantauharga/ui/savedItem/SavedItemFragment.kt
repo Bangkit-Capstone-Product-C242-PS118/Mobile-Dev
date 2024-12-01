@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.pantauharga.database.FavoriteEvents
 import com.capstone.pantauharga.databinding.FragmentSavedItemBinding
-import com.capstone.pantauharga.ui.detail.InflationPredictActivity
 
 
 class SavedItemFragment : Fragment() {

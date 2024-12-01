@@ -15,7 +15,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.capstone.pantauharga.R
 import com.capstone.pantauharga.data.retrofit.ApiConfig
-import com.capstone.pantauharga.ui.detail.InflationPredictActivity
 
 class DailyReminderWorker(private val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {

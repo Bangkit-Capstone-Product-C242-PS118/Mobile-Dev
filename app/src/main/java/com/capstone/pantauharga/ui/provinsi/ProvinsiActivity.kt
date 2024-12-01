@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.capstone.pantauharga.R
 import com.capstone.pantauharga.databinding.ActivityProvinceBinding
 import com.capstone.pantauharga.ui.detail.DetailActivity
-import com.capstone.pantauharga.ui.detail.InflationPredictActivity
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 
