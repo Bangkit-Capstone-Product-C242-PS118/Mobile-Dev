@@ -75,7 +75,6 @@ class DetailActivity : AppCompatActivity() {
             updateButtonStyles(activeFragment)
         }
 
-        // Mengatur onClick untuk tombol
         binding.btnInflationPredict.setOnClickListener {
             loadFragment(InflationPredictFragment(), "InflationPredict")
         }
@@ -103,7 +102,7 @@ class DetailActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment, tag)
             .commit()
-        viewModel.setActiveFragment(tag) // Mengatur active fragment di ViewModel
+        viewModel.setActiveFragment(tag)
     }
 
 
