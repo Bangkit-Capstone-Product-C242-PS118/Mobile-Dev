@@ -1,17 +1,16 @@
 package com.capstone.pantauharga.ui.provinsi
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.capstone.pantauharga.R
 import com.capstone.pantauharga.databinding.ActivityProvinceBinding
-import com.capstone.pantauharga.ui.detail.DetailComodityActivity
+import com.capstone.pantauharga.ui.detail.DetailActivity
+import com.capstone.pantauharga.ui.detail.InflationPredictActivity
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 
@@ -48,8 +47,13 @@ class ProvinsiActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
 
         adapter = ProvinceAdapter { data ->
-            val intent = Intent(this, DetailComodityActivity::class.java)
+//            val intent = Intent(this, InflationPredictActivity::class.java)
+//            startActivity(intent)
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("provinsi", data)
+            intent.putExtra("komoditas", data)
             startActivity(intent)
+
         }
 
         binding.rvProvince.apply {

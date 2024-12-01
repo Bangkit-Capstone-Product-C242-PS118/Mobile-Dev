@@ -16,7 +16,10 @@
         android:theme="@style/Theme.Inflatify"
         tools:targetApi="31">
         <activity
-            android:name=".ui.detail.DetailComodityActivity"
+            android:name=".ui.detail.DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detail.InflationPredictActivity"
             android:exported="false" />
         <activity
             android:name=".ui.splashscreen.SplashScreenActivity"

@@ -49,12 +49,5 @@
         <argument
             android:name="eventId"
             app:argType="string" />
-        <action
-            android:id="@+id/action_provinceFragment_to_detailCommodityFragment"
-            app:destination="@id/detailCommodityFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/detailCommodityFragment"
-        android:name="com.capstone.pantauharga.ui.detail.DetailCommodityFragment"
-        android:label="DetailCommodityFragment" />
 </navigation>

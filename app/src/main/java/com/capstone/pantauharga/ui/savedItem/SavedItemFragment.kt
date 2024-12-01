@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.pantauharga.database.FavoriteEvents
 import com.capstone.pantauharga.databinding.FragmentSavedItemBinding
-import com.capstone.pantauharga.ui.detail.DetailComodityActivity
+import com.capstone.pantauharga.ui.detail.InflationPredictActivity
 
 
 class SavedItemFragment : Fragment() {
@@ -45,7 +45,7 @@ class SavedItemFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = SavedItemAdapter(
             onItemClick = { selectedEvent ->
-                val intent = Intent(context, DetailComodityActivity::class.java)
+                val intent = Intent(context, InflationPredictActivity::class.java)
                 startActivity(intent)
             },
             onUnfavoriteClick = { event ->

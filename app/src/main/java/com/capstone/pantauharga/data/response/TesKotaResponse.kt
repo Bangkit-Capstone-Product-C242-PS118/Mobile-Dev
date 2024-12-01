@@ -1,16 +1,16 @@
 package com.capstone.pantauharga.data.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class TesKotaResponse(
-
-	@field:SerializedName("code")
-	val code: Int,
 
 	@field:SerializedName("data")
 	val data: List<DataItemProvinsi>
 )
 
+@Parcelize
 data class DataItemProvinsi(
 
 	@field:SerializedName("id")
@@ -18,4 +18,4 @@ data class DataItemProvinsi(
 
 	@field:SerializedName("title")
 	val title: String
-)
+) : Parcelable
