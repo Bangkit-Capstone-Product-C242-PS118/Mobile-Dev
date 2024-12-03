@@ -25,7 +25,7 @@ class SavedItemFragment : Fragment() {
         binding = FragmentSavedItemBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[SavedItemViewModel::class.java]
 
-        setupRecyclerView()
+
 
         viewModel.getFavoriteEvents()
 
@@ -41,19 +41,7 @@ class SavedItemFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupRecyclerView() {
-        adapter = SavedItemAdapter(
-            onItemClick = { selectedEvent ->
-                val intent = Intent(context, InflationPredictActivity::class.java)
-                startActivity(intent)
-            },
-            onUnfavoriteClick = { event ->
-                viewModel.removeFavoriteEvent(event)
-            }
-        )
-        binding.rvFavorite.layoutManager = LinearLayoutManager(context)
-        binding.rvFavorite.adapter = adapter
-    }
+
 
     private fun setEventData(events: List<FavoriteEvents>) {
         adapter.submitList(events)

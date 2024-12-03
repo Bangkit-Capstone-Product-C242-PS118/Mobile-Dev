@@ -42,40 +42,39 @@ class DailyReminderWorker(private val context: Context, workerParams: WorkerPara
         val channelDescription = "Channel for daily reminders"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
 
-        val notificationManagerService = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManagerService =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channel = NotificationChannel(channelId, channelName, importance).apply {
             description = channelDescription
         }
         notificationManagerService.createNotificationChannel(channel)
 
-        val detailIntent = Intent(context, InflationPredictActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
 
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            0,
-            detailIntent,
-            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val notification = NotificationCompat.Builder(context, channelId)
-            .setContentTitle("Daily Reminder")
-            .setContentText("$eventName at $eventTime")
-            .setSmallIcon(R.drawable.ic_notification)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-            .build()
-
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            notificationManager.notify(1, notification)
-        } else {
-            Log.e("DailyReminderWorker", "Izin notifikasi tidak diberikan")
-        }
+//        val pendingIntent = PendingIntent.getActivity(
+//            context,
+//            0,
+//
+//            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+//        )
+//
+//        val notification = NotificationCompat.Builder(context, channelId)
+//            .setContentTitle("Daily Reminder")
+//            .setContentText("$eventName at $eventTime")
+//            .setSmallIcon(R.drawable.ic_notification)
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//            .setContentIntent(pendingIntent)
+//            .setAutoCancel(true)
+//            .build()
+//
+//        if (ActivityCompat.checkSelfPermission(
+//                context,
+//                Manifest.permission.POST_NOTIFICATIONS
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            notificationManager.notify(1, notification)
+//        } else {
+//            Log.e("DailyReminderWorker", "Izin notifikasi tidak diberikan")
+//        }
+//    }
     }
 }
