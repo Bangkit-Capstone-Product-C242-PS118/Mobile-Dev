@@ -6,8 +6,6 @@ import com.capstone.pantauharga.data.response.KomoditasResponse
 import com.capstone.pantauharga.data.response.NormalPriceResponse
 import com.capstone.pantauharga.data.response.PredictInflationResponse
 import com.capstone.pantauharga.data.response.ProvinsiResponse
-import com.capstone.pantauharga.data.response.TesKotaResponse
-import com.capstone.pantauharga.data.response.TesResponse
 import retrofit2.http.*
 
 interface ApiService {
@@ -21,12 +19,6 @@ interface ApiService {
     suspend fun getDetailEvent(
         @Path("id") id: String
     ): DetailResponse
-
-    @GET("2f518dc2-4bde-46da-9a9c-766f8459207f")
-    suspend fun getKota(): TesKotaResponse
-
-    @GET("7362b6e2-0be4-4580-a6c9-201683c1d74d")
-    suspend fun getKomoditas(): TesResponse
 
     @GET("commodities")
     suspend fun getCommodities(): KomoditasResponse

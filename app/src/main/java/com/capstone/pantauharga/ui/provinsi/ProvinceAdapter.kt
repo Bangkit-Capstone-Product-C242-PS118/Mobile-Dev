@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.data.response.ListProvincesItem
 
 import com.capstone.pantauharga.databinding.ItemProvBinding

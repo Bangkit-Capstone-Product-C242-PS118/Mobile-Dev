@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.data.response.ListProvincesItem
 import com.capstone.pantauharga.data.retrofit.ApiConfig
 import kotlinx.coroutines.launch
