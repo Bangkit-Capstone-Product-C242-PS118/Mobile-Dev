@@ -7,19 +7,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone.pantauharga.data.response.DataItem
+import com.capstone.pantauharga.data.response.ListProvincesItem
 
 import com.capstone.pantauharga.databinding.ItemProvBinding
 
+
 class ProvinceAdapter(
-    private val onItemClick: (DataItem) -> Unit
-) : ListAdapter<DataItem, ProvinceAdapter.ProvinceViewHolder>(DiffCallback) {
+    private val onItemClick: (ListProvincesItem) -> Unit
+) : ListAdapter<ListProvincesItem, ProvinceAdapter.ProvinceViewHolder>(DiffCallback) {
 
     inner class ProvinceViewHolder(private val binding: ItemProvBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: DataItem) {
-            binding.tvProvince.text = item.title
+        fun bind(item: ListProvincesItem) {
+            binding.tvProvince.text = item.name
             Glide.with(binding.root.context)
-                .load(item.img)
+                .load(item.image)
                 .into(binding.imageProv)
 
             binding.root.setOnClickListener {
@@ -38,12 +40,12 @@ class ProvinceAdapter(
     }
 
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<DataItem>() {
-            override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+        private val DiffCallback = object : DiffUtil.ItemCallback<ListProvincesItem>() {
+            override fun areItemsTheSame(oldItem: ListProvincesItem, newItem: ListProvincesItem): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+            override fun areContentsTheSame(oldItem: ListProvincesItem, newItem: ListProvincesItem): Boolean {
                 return oldItem == newItem
             }
         }
