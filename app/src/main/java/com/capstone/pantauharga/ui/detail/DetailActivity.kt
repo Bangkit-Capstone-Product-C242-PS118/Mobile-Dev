@@ -2,21 +2,25 @@ package com.capstone.pantauharga.ui.detail
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.capstone.pantauharga.R
-import com.capstone.pantauharga.data.response.DataItem
-import com.capstone.pantauharga.data.response.DataItemProvinsi
+import com.capstone.pantauharga.data.response.ListCommoditiesItem
+import com.capstone.pantauharga.data.response.ListProvincesItem
+import com.capstone.pantauharga.data.retrofit.ApiConfig
+import com.capstone.pantauharga.data.retrofit.ApiService
 import com.capstone.pantauharga.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
-    private val viewModel: DetailViewModel by viewModels()
+
+    private val apiService: ApiService = ApiConfig.getApiService()
+
+    private val viewModel: DetailViewModel by viewModels {
+        DetailViewModelFactory(apiService)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +29,14 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-//        val provinsi = intent.getParcelableExtra<DataItemProvinsi>("provinsi")
-        val komoditas = intent.getParcelableExtra<DataItem>("komoditas")
+        val komoditas = intent.getParcelableExtra<ListCommoditiesItem>("komoditas")
+        val provinsi = intent.getParcelableExtra<ListProvincesItem>("provinsi")
 
-//        provinsi?.let { viewModel.setLocation(it.title) }
-        komoditas?.let { viewModel.setCommodityName(it.title) }
+        komoditas?.let { viewModel.setCommodityName(it) }
+        provinsi?.let { viewModel.setLocation(it) }
+
+        Log.d("ProvinsiActivity", "Komoditas ID yang diambil: $komoditas")
+        Log.d("ProvinsiActivity", "Komoditas ID yang diambil: $provinsi")
 
         viewModel.location.observe(this) { location ->
             binding.tvLocation.text = location
@@ -38,8 +45,6 @@ class DetailActivity : AppCompatActivity() {
         viewModel.commodityName.observe(this) { commodityName ->
             binding.tvComodityName.text = commodityName
         }
-
-        //loadFragment(InflationPredictFragment())
 
         loadFragment(InflationPredictFragment(), "InflationPredict")
 
@@ -54,23 +59,34 @@ class DetailActivity : AppCompatActivity() {
         binding.btnNormalPrice.setOnClickListener {
             loadFragment(NormalPriceFragment(), "NormalPrice")
         }
-
-//        binding.btnInflationPredict.setOnClickListener {
-//            loadFragment(InflationPredictFragment())
-//        }
-//
-//        binding.btnNormalPrice.setOnClickListener {
-//            loadFragment(NormalPriceFragment())
-//        }
     }
 
-//    private fun loadFragment(fragment: Fragment) {
+    //    private fun loadFragment(fragment: Fragment, tag: String) {
 //        supportFragmentManager.beginTransaction()
-//            .replace(R.id.fragment_container, fragment)
+//            .replace(R.id.fragment_container, fragment, tag)
 //            .commit()
+//        viewModel.setActiveFragment(tag)
 //    }
-
     private fun loadFragment(fragment: Fragment, tag: String) {
+        val commodityId = intent.getParcelableExtra<ListCommoditiesItem>("komoditas")?.id.toString()
+        val provinceId = intent.getParcelableExtra<ListProvincesItem>("provinsi")?.id.toString()
+
+        if (fragment is InflationPredictFragment ) {
+            val args = Bundle().apply {
+                putString("komoditas", commodityId)
+                putString("provinsi", provinceId)
+            }
+            fragment.arguments = args
+        }
+
+        if (fragment is NormalPriceFragment) {
+            val args = Bundle().apply {
+                putString("komoditas", commodityId)
+                putString("provinsi", provinceId)
+            }
+            fragment.arguments = args
+        }
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment, tag)
             .commit()
@@ -79,26 +95,20 @@ class DetailActivity : AppCompatActivity() {
 
 
     private fun updateButtonStyles(activeFragment: String) {
-        Log.d("DetailActivity", "Active Fragment: $activeFragment")
         binding.btnInflationPredict.apply {
-            if (activeFragment == "InflationPredict") {
-                setBackgroundResource(R.drawable.bg_button_active)
-                setTextColor(ContextCompat.getColor(context, android.R.color.white))
-            } else {
-                setBackgroundResource(R.drawable.bg_button_secondary)
-                setTextColor(ContextCompat.getColor(context, R.color.blue))
-            }
+            setBackgroundResource(
+                if (activeFragment == "InflationPredict") R.drawable.bg_button_active
+                else R.drawable.bg_button_secondary
+            )
+            setTextColor(ContextCompat.getColor(context, if (activeFragment == "InflationPredict") android.R.color.white else R.color.blue))
         }
 
         binding.btnNormalPrice.apply {
-            if (activeFragment == "NormalPrice") {
-                setBackgroundResource(R.drawable.bg_button_active)
-                setTextColor(ContextCompat.getColor(context, android.R.color.white))
-            } else {
-                setBackgroundResource(R.drawable.bg_button_secondary)
-                setTextColor(ContextCompat.getColor(context, R.color.blue))
-            }
+            setBackgroundResource(
+                if (activeFragment == "NormalPrice") R.drawable.bg_button_active
+                else R.drawable.bg_button_secondary
+            )
+            setTextColor(ContextCompat.getColor(context, if (activeFragment == "NormalPrice") android.R.color.white else R.color.blue))
         }
     }
-
 }
