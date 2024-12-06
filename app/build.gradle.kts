@@ -18,7 +18,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_URL", "\"https://mocki.io/v1/\"")
+        buildConfigField("String", "BASE_URL", "\"https://mock.apidog.com/m1/753341-730506-default/\"")
     }
 
     buildTypes {
