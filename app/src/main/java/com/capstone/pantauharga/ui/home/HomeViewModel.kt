@@ -70,7 +70,7 @@ class HomeViewModel : ViewModel() {
             try {
                 val responseKomoditas = ApiConfig.getApiService().getCommodities()
                 _loading.value = false
-                if (responseKomoditas.listCommodities.isNullOrEmpty()) {
+                if (responseKomoditas.listCommodities.isEmpty()) {
                     setError(true)
                     println("Empty data received from API")
                 } else {
