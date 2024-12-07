@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.capstone.pantauharga.R
+import com.capstone.pantauharga.custom.CustomButton
+import com.capstone.pantauharga.custom.CustomButtonSecondary
 import com.capstone.pantauharga.data.response.ListCommoditiesItem
 import com.capstone.pantauharga.data.response.ListProvincesItem
 import com.capstone.pantauharga.data.retrofit.ApiConfig
@@ -93,22 +95,15 @@ class DetailActivity : AppCompatActivity() {
         viewModel.setActiveFragment(tag)
     }
 
-
     private fun updateButtonStyles(activeFragment: String) {
         binding.btnInflationPredict.apply {
-            setBackgroundResource(
-                if (activeFragment == "InflationPredict") R.drawable.bg_button_active
-                else R.drawable.bg_button_secondary
-            )
-            setTextColor(ContextCompat.getColor(context, if (activeFragment == "InflationPredict") android.R.color.white else R.color.blue))
+            (this as? CustomButton)?.setActive(activeFragment == "InflationPredict")
+            isEnabled = activeFragment != "InflationPredict"
         }
 
         binding.btnNormalPrice.apply {
-            setBackgroundResource(
-                if (activeFragment == "NormalPrice") R.drawable.bg_button_active
-                else R.drawable.bg_button_secondary
-            )
-            setTextColor(ContextCompat.getColor(context, if (activeFragment == "NormalPrice") android.R.color.white else R.color.blue))
+            (this as? CustomButtonSecondary)?.setActive(activeFragment == "NormalPrice")
+            isEnabled = activeFragment != "NormalPrice"
         }
     }
 }
