@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.capstone.pantauharga.data.response.ListCommoditiesItem
-import com.capstone.pantauharga.data.response.ListEventsItem
 import com.capstone.pantauharga.data.retrofit.ApiConfig
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -70,7 +69,7 @@ class HomeViewModel : ViewModel() {
             try {
                 val responseKomoditas = ApiConfig.getApiService().getCommodities()
                 _loading.value = false
-                if (responseKomoditas.listCommodities.isEmpty()) {
+                if (responseKomoditas.listCommodities.isNullOrEmpty()) {
                     setError(true)
                     println("Empty data received from API")
                 } else {

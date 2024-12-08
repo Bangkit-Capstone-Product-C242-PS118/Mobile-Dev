@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
+import com.google.gson.Gson
 
 class InflationPredictFragment : Fragment() {
 
@@ -114,4 +115,5 @@ class InflationPredictFragment : Fragment() {
             axisLeft.isEnabled = false
         }
     }
+
 }

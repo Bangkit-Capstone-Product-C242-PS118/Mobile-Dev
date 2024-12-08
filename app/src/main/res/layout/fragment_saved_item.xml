@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFavorite"
+        android:id="@+id/rvSave"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingBottom="?attr/actionBarSize"

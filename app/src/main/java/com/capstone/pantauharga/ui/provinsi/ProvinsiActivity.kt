@@ -96,7 +96,7 @@ class ProvinsiActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         val komoditas = intent.getParcelableExtra<ListCommoditiesItem>("komoditas")
-        val provinsiId = intent.getStringExtra("commodityId") ?: ""
+        val provinsiId = komoditas?.id.toString()
 
         Log.d("ProvinsiActivity", "Komoditas ID yang diambil: $komoditas")
 

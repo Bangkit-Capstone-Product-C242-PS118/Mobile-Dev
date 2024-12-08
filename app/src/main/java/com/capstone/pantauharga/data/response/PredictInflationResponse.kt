@@ -1,6 +1,8 @@
 package com.capstone.pantauharga.data.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class PredictInflationResponse(
 
@@ -17,6 +19,7 @@ data class PredictInflationResponse(
     val predictions: List<PredictionsItem>
 )
 
+@Parcelize
 data class PredictionsItem(
 
     @field:SerializedName("date")
@@ -24,4 +27,4 @@ data class PredictionsItem(
 
     @field:SerializedName("value")
     val value: Int
-)
+) : Parcelable
