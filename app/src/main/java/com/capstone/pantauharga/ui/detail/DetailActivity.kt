@@ -21,16 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
-//    private lateinit var binding: ActivityDetailBinding
-//
-//    private var isPredictionSaved = false
-//    private var currentPrediction: PredictInflation? = null
-//
-//    private val apiService: ApiService = ApiConfig.getApiService()
-//
-//    private val viewModel: DetailViewModel by viewModels {
-//        DetailViewModelFactory(apiService, AppDatabase.getDatabase(this))
-//    }
 
     private lateinit var binding: ActivityDetailBinding
     private var isPredictionSaved = false
@@ -81,44 +71,68 @@ class DetailActivity : AppCompatActivity() {
             loadFragment(NormalPriceFragment(), "NormalPrice")
         }
 
-
-//        viewModel.getPredictionById(1).observe(this) { prediction ->
-//            isPredictionSaved = prediction != null
-//            currentPrediction = prediction
-//            updateBookmarkIcon()
-//        }
-
         checkBookmarkStatus()
 
         binding.btnBookmark.setOnClickListener {
+            // 1. Dapatkan data provinsi_id dan komoditas_id
+            var commodityId = komoditas?.id.toString()
+            var provinceId = provinsi?.id.toString()
+            var months = arrayOf(30, 90, 180, 270, 360, 720);
+
             CoroutineScope(Dispatchers.IO).launch {
-                viewModel.inflationData.value?.let { inflationData ->
-                    if (isPredictionSaved && currentPrediction != null) {
-                        viewModel.deletePrediction(currentPrediction!!)
-                        isPredictionSaved = false
-                        runOnUiThread {
-                            updateBookmarkIcon()
-                            Toast.makeText(this@DetailActivity, "Prediction removed from bookmarks", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        viewModel.savePrediction(
-                            description = inflationData.description,
-                            predictions = inflationData.predictions,
-                            commodityName = binding.tvComodityName.text.toString(),
-                            provinceName = binding.tvLocation.text.toString()
-                        )
-                        isPredictionSaved = true
-                        runOnUiThread {
-                            updateBookmarkIcon()
-                            Toast.makeText(this@DetailActivity, "Prediction bookmarked successfully", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                } ?: run {
-                    runOnUiThread {
-                        Toast.makeText(this@DetailActivity, "No data to bookmark", Toast.LENGTH_SHORT).show()
-                    }
+                for(timeRange in months)
+                {
+                    // 2. Fecth data comodity
+                    var result =  viewModel.fetchInflationPrediction(commodityId, provinceId, timeRange)
+
+                    // 3. Hapus seluruh data yang ada di database berdasarkan id_komoditas, id_provinsi, timeRange
+                    viewModel.deletePrediction(provinceId, commodityId, timeRange)
+
+                    // 4. Simpan hasil result kedalam database
+                    viewModel.savePrediction(
+                        provinceId = provinceId,
+                        comodityId = comodityId,
+                        timeRange  = timeRange,
+                        description = inflationData.description,
+                        predictions = inflationData.predictions,
+                        commodityName = binding.tvComodityName.text.toString(),
+                        provinceName = binding.tvLocation.text.toString()
+                    )
+
                 }
             }
+
+//            CoroutineScope(Dispatchers.IO).launch {
+//                viewModel.inflationData.value?.let { inflationData ->
+//                    // MENGAMBIL SELURUH DATA BERDASARKAN RENTANG FILTER
+//
+//
+//                    if (isPredictionSaved && currentPrediction != null) {
+//                        viewModel.deletePrediction(currentPrediction!!)
+//                        isPredictionSaved = false
+//                        runOnUiThread {
+//                            updateBookmarkIcon()
+//                            Toast.makeText(this@DetailActivity, "Prediction removed from bookmarks", Toast.LENGTH_SHORT).show()
+//                        }
+//                    } else {
+//                        viewModel.savePrediction(
+//                            description = inflationData.description,
+//                            predictions = inflationData.predictions,
+//                            commodityName = binding.tvComodityName.text.toString(),
+//                            provinceName = binding.tvLocation.text.toString()
+//                        )
+//                        isPredictionSaved = true
+//                        runOnUiThread {
+//                            updateBookmarkIcon()
+//                            Toast.makeText(this@DetailActivity, "Prediction bookmarked successfully", Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                } ?: run {
+//                    runOnUiThread {
+//                        Toast.makeText(this@DetailActivity, "No data to bookmark", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
         }
 
     }
