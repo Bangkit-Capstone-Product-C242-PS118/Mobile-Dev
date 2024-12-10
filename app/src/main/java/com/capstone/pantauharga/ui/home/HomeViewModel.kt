@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.capstone.pantauharga.data.response.ListCommoditiesItem
+import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.data.retrofit.ApiConfig
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -49,8 +49,8 @@ class HomeViewModel : ViewModel() {
 //        _error.value = value
 //    }
 
-    private val _komoditas = MutableLiveData<List<ListCommoditiesItem>>()
-    val komoditas: LiveData<List<ListCommoditiesItem>> = _komoditas
+    private val _komoditas = MutableLiveData<List<DataItem>>()
+    val komoditas: LiveData<List<DataItem>> = _komoditas
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
@@ -69,11 +69,11 @@ class HomeViewModel : ViewModel() {
             try {
                 val responseKomoditas = ApiConfig.getApiService().getCommodities()
                 _loading.value = false
-                if (responseKomoditas.listCommodities.isNullOrEmpty()) {
+                if (responseKomoditas.data.isNullOrEmpty()) {
                     setError(true)
                     println("Empty data received from API")
                 } else {
-                    _komoditas.postValue(responseKomoditas.listCommodities)
+                    _komoditas.postValue(responseKomoditas.data)
                 }
             } catch (e: Exception) {
                 _loading.value = false

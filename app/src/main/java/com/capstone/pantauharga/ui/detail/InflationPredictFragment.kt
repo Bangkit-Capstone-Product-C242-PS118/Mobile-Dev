@@ -10,8 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.capstone.pantauharga.data.response.DataModel
-import com.capstone.pantauharga.data.response.PredictionsItem
+import com.capstone.pantauharga.data.response.PricesKomoditasItem
 import com.capstone.pantauharga.databinding.FragmentInflationPredictBinding
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -19,12 +18,11 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
-import com.google.gson.Gson
 
 class InflationPredictFragment : Fragment() {
 
     private lateinit var binding: FragmentInflationPredictBinding
-    private val viewModel: DetailViewModel by activityViewModels()
+    private val viewModel: DetailPricesViewModel by activityViewModels()
     private var commodityId: String = ""
     private var provinceId: String = ""
 
@@ -56,31 +54,68 @@ class InflationPredictFragment : Fragment() {
             }
         }
 
-        viewModel.inflationData.observe(viewLifecycleOwner, Observer { data ->
+        viewModel.hargaKomoditas.observe(viewLifecycleOwner, Observer { data ->
             data?.let {
-                displayChart(it.predictions)
+                displayChart(it.prices)
                 binding.tvDescription.text = it.description
             }
         })
 
-        binding.btn1m.setOnClickListener { fetchInflationData(30) }
-        binding.btn3m.setOnClickListener { fetchInflationData(90) }
-        binding.btn6m.setOnClickListener { fetchInflationData(180) }
-        binding.btn9m.setOnClickListener { fetchInflationData(270) }
-        binding.btn1y.setOnClickListener { fetchInflationData(360) }
+        fetchInflationPredict(provinceId)
 
-        fetchInflationData(30)
+        viewModel.inflationDataPredict.observe(viewLifecycleOwner, Observer {dataPredict ->
+            dataPredict?.let {
+                binding.tvValuePrediction.text = it.prediksiInflasi
+            }
+        })
+
+        fetchInflation(provinceId)
+
+        viewModel.inflation.observe(viewLifecycleOwner, Observer {dataInflation ->
+            dataInflation?.let {
+                binding.tvValueInflation.text = it.tingkatInflasi
+            }
+        })
+
+        fetchLastPrice(provinceId, commodityId)
+
+        viewModel.lastPrice.observe(viewLifecycleOwner, Observer {dataInflation ->
+            dataInflation?.let {
+                binding.tvValueLastPrice.text = it.harga
+            }
+        })
+
+
+        binding.btn1m.setOnClickListener { fetchInflationData(1) }
+        binding.btn3m.setOnClickListener { fetchInflationData(2) }
+        binding.btn6m.setOnClickListener { fetchInflationData(3) }
+        binding.btn9m.setOnClickListener { fetchInflationData(4) }
+        binding.btn1y.setOnClickListener { fetchInflationData(5) }
+
+        fetchInflationData(1)
     }
 
     private fun fetchInflationData(timeRange: Int) {
         viewModel.fetchInflationPrediction(commodityId, provinceId, timeRange)
     }
 
-    private fun displayChart(predictions: List<PredictionsItem>) {
-        val entries = predictions.mapIndexed { index, item -> Entry(index.toFloat(), item.value.toFloat()) }
-        val labels = predictions.map { it.date }
+    private fun fetchInflationPredict(idDaerah: String){
+        viewModel.fetchPredictInflation(idDaerah)
+    }
 
-        val dataSet = LineDataSet(entries, "Inflasi").apply {
+    private fun fetchInflation(idDaerah: String){
+        viewModel.fetchDataInflation(idDaerah)
+    }
+
+    private fun fetchLastPrice(idDaerah: String, idKomoditas: String){
+        viewModel.fetchLastPrice(idDaerah, idKomoditas)
+    }
+
+    private fun displayChart(predictions: List<PricesKomoditasItem>) {
+        val entries = predictions.mapIndexed { index, item -> Entry(index.toFloat(), item.harga.toFloat()) }
+        val labels = predictions.map { it.tanggalHarga }
+
+        val dataSet = LineDataSet(entries, "Harga Komoditas").apply {
             color = Color.BLUE
             valueTextColor = Color.BLACK
             setDrawCircles(true)

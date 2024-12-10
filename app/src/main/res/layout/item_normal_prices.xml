@@ -1,7 +1,6 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
@@ -21,14 +20,6 @@
             android:padding="16dp"
             android:orientation="horizontal">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/img_save"
-                android:layout_width="100dp"
-                android:layout_height="152dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/RoundedImage"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -59,15 +50,7 @@
                     style="@style/DetailStyle1"
                     android:text="Jawa Barat" />
 
-                <TextView
-                    android:id="@+id/time"
-                    style="@style/DetailStyle1.Tittle"
-                    android:text="Time:" />
 
-                <TextView
-                    android:id="@+id/tv_sv_time"
-                    style="@style/DetailStyle1"
-                    android:text="December" />
 
             </LinearLayout>
         </LinearLayout>

@@ -17,12 +17,5 @@ class SettingsViewModel (private val pref: SettingPreferences) : ViewModel() {
         }
     }
 
-    fun enableDailyReminder(isEnabled: Boolean) {
-        pref.saveDailyReminderSetting(isEnabled)
-    }
-
-    fun getDailyReminderSetting(): LiveData<Boolean> {
-        return pref.getDailyReminderSetting().asLiveData()
-    }
 
 }

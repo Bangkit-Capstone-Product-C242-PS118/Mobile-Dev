@@ -7,10 +7,12 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 
-@Database(entities = [PredictInflation::class], version = 1, exportSchema = false)
+@Database(entities = [HargaKomoditas::class, NormalPrice::class, Inflasi::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun predictInflationDao(): PredictInflationDao
+    abstract fun predictInflationDao(): HargaKomoditasDao
+    abstract fun normalPriceDao(): NormalPriceDao
+    abstract fun inflasiDao(): InflationDao
 
     companion object {
         @Volatile

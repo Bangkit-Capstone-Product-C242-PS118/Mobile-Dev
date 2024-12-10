@@ -3,20 +3,22 @@ package com.capstone.pantauharga.database
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.capstone.pantauharga.data.response.PredictionsItem
-import com.google.gson.annotations.SerializedName
+import com.capstone.pantauharga.data.response.PricesNormalItem
 import kotlinx.android.parcel.Parcelize
-import kotlinx.parcelize.RawValue
 import kotlinx.parcelize.WriteWith
 
 @Entity
 @Parcelize
-data class PredictInflation(
+data class NormalPrice(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val komoditasId: String = "",
+    val daerahId: String = "",
     val description: String,
-    val predictions: @WriteWith<PredictionsItemListParceler>() List<PredictionsItem>,
+    val normalPrice: @WriteWith<NormalPriceItemListParceler>() List<PricesNormalItem>,
     val commodityName: String,
-    val provinceName: String
+    val provinceName: String,
+    val timeRange: Int
 ) : Parcelable
+
 

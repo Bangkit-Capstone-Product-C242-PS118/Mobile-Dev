@@ -4,14 +4,19 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.pantauharga.R
 import com.capstone.pantauharga.data.response.PricesKomoditasItem
+import com.capstone.pantauharga.data.response.PricesNormalItem
 import com.capstone.pantauharga.data.retrofit.ApiConfig
 import com.capstone.pantauharga.database.AppDatabase
 import com.capstone.pantauharga.database.HargaKomoditas
-
+import com.capstone.pantauharga.database.NormalPrice
+import com.capstone.pantauharga.databinding.ActivitySaveNormalPriceBinding
 import com.capstone.pantauharga.databinding.ActivitySavePredictBinding
 import com.capstone.pantauharga.repository.PredictInflationRepository
 import com.github.mikephil.charting.components.XAxis
@@ -21,20 +26,20 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
-class SavePredictActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySavePredictBinding
-    private lateinit var detailDataEntity: HargaKomoditas
+class SaveNormalPriceActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySaveNormalPriceBinding
+    private lateinit var detailDataEntity: NormalPrice
     private lateinit var viewModel: SaveViewModel
     private var isBookmarked: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySavePredictBinding.inflate(layoutInflater)
+        binding = ActivitySaveNormalPriceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.hide()
 
-        detailDataEntity = intent.getParcelableExtra("prediction")!!
+        detailDataEntity = intent.getParcelableExtra("normalPrices")!!
 
         val apiService = ApiConfig.getApiService()
         val database = AppDatabase.getDatabase(applicationContext)
@@ -44,11 +49,11 @@ class SavePredictActivity : AppCompatActivity() {
 
         setupUI()
         setupBookmarkButton()
-        displayChart(detailDataEntity.predictions)
+
+        displayChart(detailDataEntity.normalPrice)
         updateChartForTimeRange(11)
         setupChart()
         setupTimeRangeButtons()
-
     }
 
     private fun setupUI() {
@@ -57,13 +62,13 @@ class SavePredictActivity : AppCompatActivity() {
         binding.tvLocation.text = detailDataEntity.provinceName
     }
 
-    private fun displayChart(predictions: List<PricesKomoditasItem>) {
+    private fun displayChart(predictions: List<PricesNormalItem>) {
         val entries = predictions.mapIndexed { index, item ->
-            Entry(index.toFloat(), item.harga.toFloat())
+            Entry(index.toFloat(), item.hargaNormal.toFloat())
         }
         val labels = predictions.map { it.tanggalHarga }
 
-        val dataSet = LineDataSet(entries, "Inflasi").apply {
+        val dataSet = LineDataSet(entries, "Harga Normal").apply {
             color = Color.BLUE
             valueTextColor = Color.BLACK
             setDrawCircles(true)
@@ -79,8 +84,8 @@ class SavePredictActivity : AppCompatActivity() {
         updateBookmarkIcon(isBookmarked)
         binding.btnBookmark.setOnClickListener {
             if (isBookmarked) {
-                viewModel.deleteByCommodityAndProvince(detailDataEntity.commodityName, detailDataEntity.provinceName)
-                Toast.makeText(this@SavePredictActivity, "Commodity Data removed from bookmarks", Toast.LENGTH_SHORT).show()
+                viewModel.deleteNormalByCommodityAndProvince(detailDataEntity.commodityName, detailDataEntity.provinceName)
+                Toast.makeText(this@SaveNormalPriceActivity, "Normal Prices Data removed from bookmarks", Toast.LENGTH_SHORT).show()
                 isBookmarked = false
             }
             else {
@@ -150,15 +155,13 @@ class SavePredictActivity : AppCompatActivity() {
 
         Log.d("SavePredictActivity", "Button clicked: timeRange = $timeRange")
 
-        viewModel.getWaktu(komoditasid, provinsiId, timeRange).observe(this) { hargaKomoditas ->
-            if (hargaKomoditas != null && hargaKomoditas.predictions != null) {
-                Log.d("SavePredictActivity", "Data received: ${hargaKomoditas.predictions}")
-                displayChart(hargaKomoditas.predictions)
+        viewModel.getWaktuNormal(komoditasid, provinsiId, timeRange).observe(this) { hargaKomoditas ->
+            if (hargaKomoditas?.normalPrice != null) {
+                Log.d("SavePredictActivity", "Data received: ${hargaKomoditas.normalPrice}")
+                displayChart(hargaKomoditas.normalPrice)
             } else {
                 Log.d("SavePredictActivity", "No data received or predictions is null")
             }
         }
     }
-
-
 }

@@ -9,9 +9,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.capstone.pantauharga.R
-import com.capstone.pantauharga.data.response.ListCommoditiesItem
+import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.databinding.ActivityProvinceBinding
-import com.capstone.pantauharga.ui.detail.DetailActivity
+import com.capstone.pantauharga.ui.detail.DetailPricesActivity
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 
@@ -95,8 +95,8 @@ class ProvinsiActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val komoditas = intent.getParcelableExtra<ListCommoditiesItem>("komoditas")
-        val provinsiId = komoditas?.id.toString()
+        val komoditas = intent.getParcelableExtra<DataItem>("komoditas")
+        val provinsiId = komoditas?.idKomoditas.toString()
 
         Log.d("ProvinsiActivity", "Komoditas ID yang diambil: $komoditas")
 
@@ -109,9 +109,9 @@ class ProvinsiActivity : AppCompatActivity() {
 
 
 
-    private fun setupRecyclerView(komoditas: ListCommoditiesItem?) {
+    private fun setupRecyclerView(komoditas: DataItem?) {
         adapter = ProvinceAdapter { selectedProvince ->
-            val intent = Intent(this, DetailActivity::class.java).apply {
+            val intent = Intent(this, DetailPricesActivity::class.java).apply {
                 putExtra("provinsi", selectedProvince)
                 putExtra("komoditas", komoditas)
             }

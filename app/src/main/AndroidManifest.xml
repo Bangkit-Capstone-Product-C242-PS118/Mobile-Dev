@@ -19,7 +19,7 @@
             android:name=".ui.savedItem.SavePredictActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.detail.DetailActivity"
+            android:name=".ui.detail.DetailPricesActivity"
             android:exported="false" />
         <activity
             android:name=".ui.splashscreen.SplashScreenActivity"

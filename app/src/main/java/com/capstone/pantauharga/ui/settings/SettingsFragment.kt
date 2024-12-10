@@ -32,29 +32,10 @@ class SettingsFragment : Fragment() {
             binding.switchTheme.isChecked = isDarkMode
         }
 
-        viewModel.getDailyReminderSetting().observe(viewLifecycleOwner) { isEnabled: Boolean ->
-            binding.switchNotification.isChecked = isEnabled
-            if (isEnabled) {
-                startDailyReminderWorker()
-            } else {
-                stopDailyReminderWorker()
-            }
-        }
-
         binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
             changeTheme(isChecked)
         }
 
-        binding.switchNotification.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            if (isChecked) {
-                viewModel.enableDailyReminder(true)
-                startDailyReminderWorker()
-                Log.d("SettingsFragment", "Notifikasi diaktifkan")
-            } else {
-                viewModel.enableDailyReminder(false)
-                stopDailyReminderWorker()
-            }
-        }
 
         return binding.root
     }
@@ -63,26 +44,6 @@ class SettingsFragment : Fragment() {
         viewModel.saveThemeSetting(isDarkMode)
     }
 
-    private fun startDailyReminderWorker() {
-        val workManager = WorkManager.getInstance(requireContext())
-        val workInfos = workManager.getWorkInfosByTag("dailyReminderTag").get()
 
-        val isWorkerRunning = workInfos.any { it.state == WorkInfo.State.ENQUEUED || it.state == WorkInfo.State.RUNNING }
-
-        if (!isWorkerRunning) {
-            val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyReminderWorker>(1, TimeUnit.DAYS)
-                .addTag("dailyReminderTag")
-                .build()
-            workManager.enqueue(dailyWorkRequest)
-            Log.d("SettingsFragment", "Daily reminder worker scheduled")
-        } else {
-            Log.d("SettingsFragment", "Worker sudah ada, tidak perlu dijadwalkan ulang")
-        }
-    }
-
-    private fun stopDailyReminderWorker() {
-        WorkManager.getInstance(requireContext()).cancelAllWorkByTag("dailyReminderTag")
-        Log.d("SettingsFragment", "Daily reminder dihapus")
-    }
 
 }

@@ -1,6 +1,5 @@
 package com.capstone.pantauharga.ui.detail
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,7 +11,7 @@ import android.graphics.Color
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 
-import com.capstone.pantauharga.data.response.PricesItem
+import com.capstone.pantauharga.data.response.PricesNormalItem
 import com.capstone.pantauharga.databinding.FragmentNormalPriceBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -23,7 +22,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 class NormalPriceFragment : Fragment()  {
     private lateinit var binding: FragmentNormalPriceBinding
-    private val viewModel: DetailViewModel by activityViewModels()
+    private val viewModel: DetailPricesViewModel by activityViewModels()
     private var commodityId: String = ""
     private var provinceId: String = ""
 
@@ -56,23 +55,32 @@ class NormalPriceFragment : Fragment()  {
             }
         }
 
-        viewModel.normalPricData.observe(viewLifecycleOwner, Observer { data ->
+        viewModel.normalPriceData.observe(viewLifecycleOwner, Observer { data ->
             data?.let {
                 displayChart(it.prices)
                 binding.tvDescription.text = it.description
             }
         })
 
-        fetchNormalPriceData()
+        binding.btn1m.setOnClickListener { fetchNormalPriceData(1) }
+        binding.btn3m.setOnClickListener { fetchNormalPriceData(2) }
+        binding.btn6m.setOnClickListener { fetchNormalPriceData(3) }
+        binding.btn9m.setOnClickListener { fetchNormalPriceData(4) }
+        binding.btn1y.setOnClickListener { fetchNormalPriceData(5) }
+
+
+        fetchNormalPriceData(1)
     }
 
-    private fun fetchNormalPriceData() {
-        viewModel.fetchNormalPrices(commodityId, provinceId)
+
+
+    private fun fetchNormalPriceData(timeRange: Int) {
+        viewModel.fetchNormalPrices(commodityId, provinceId, timeRange)
     }
 
-    private fun displayChart(prices: List<PricesItem>) {
-        val entries = prices.mapIndexed { index, item -> Entry(index.toFloat(), item.value.toFloat()) }
-        val labels = prices.map { it.date }
+    private fun displayChart(prices: List<PricesNormalItem>) {
+        val entries = prices.mapIndexed { index, item -> Entry(index.toFloat(), item.hargaNormal.toFloat()) }
+        val labels = prices.map { it.tanggalHarga }
 
         val dataSet = LineDataSet(entries, "Normal Price").apply {
             color = Color.BLUE

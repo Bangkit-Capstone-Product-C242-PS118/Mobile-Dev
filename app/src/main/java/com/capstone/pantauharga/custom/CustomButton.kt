@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import com.capstone.pantauharga.R
 
 class CustomButton : AppCompatButton {
-
     private var isActive: Boolean = false
     private var activeBackground: Drawable
     private var inactiveBackground: Drawable

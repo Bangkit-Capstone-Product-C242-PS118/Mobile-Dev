@@ -6,15 +6,13 @@ import com.capstone.pantauharga.data.retrofit.ApiService
 import com.capstone.pantauharga.database.AppDatabase
 import com.capstone.pantauharga.repository.PredictInflationRepository
 
-class DetailViewModelFactory(
-    private val apiService: ApiService,
-    private val database: AppDatabase
+class DetailPricesViewModelFactory(
+    private val repository: PredictInflationRepository
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            val repository = PredictInflationRepository(apiService, database)
-            return DetailViewModel(repository) as T
+        if (modelClass.isAssignableFrom(DetailPricesViewModel::class.java)) {
+            return DetailPricesViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

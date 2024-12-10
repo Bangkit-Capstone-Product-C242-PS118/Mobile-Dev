@@ -18,7 +18,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_URL", "\"https://mock.apidog.com/m1/753341-730506-default/\"")
+        buildConfigField("String", "BASE_URL", "\"https://apibangkit-1065621497801.asia-southeast1.run.app/\"")
     }
 
     buildTypes {

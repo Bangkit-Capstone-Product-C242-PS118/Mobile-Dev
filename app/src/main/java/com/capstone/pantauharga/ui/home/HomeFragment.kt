@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.pantauharga.R
-import com.capstone.pantauharga.data.response.ListCommoditiesItem
+import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.databinding.FragmentHomeBinding
 import com.capstone.pantauharga.ui.KomoditasAdapter
 import com.capstone.pantauharga.ui.provinsi.ProvinsiActivity
@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun navigateToProvinceActivity(selectedCommodity: ListCommoditiesItem) {
+    private fun navigateToProvinceActivity(selectedCommodity: DataItem) {
         val intent = Intent(activity, ProvinsiActivity::class.java).apply {
             putExtra("komoditas", selectedCommodity)
         }
