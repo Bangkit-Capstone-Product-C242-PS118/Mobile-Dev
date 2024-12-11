@@ -19,6 +19,9 @@
             android:name=".ui.savedItem.SavePredictActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.savedItem.SaveNormalPriceActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.detail.DetailPricesActivity"
             android:exported="false" />
         <activity

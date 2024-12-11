@@ -102,7 +102,9 @@ class NormalPriceFragment : Fragment()  {
             setScaleEnabled(true)
             setPinchZoom(true)
 
+
             xAxis.apply {
+                labelRotationAngle = -45f
                 position = XAxis.XAxisPosition.BOTTOM
                 granularity = 1f
                 setDrawGridLines(false)

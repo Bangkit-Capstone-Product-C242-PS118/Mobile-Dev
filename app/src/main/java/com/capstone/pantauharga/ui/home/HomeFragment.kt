@@ -17,6 +17,7 @@ import com.capstone.pantauharga.ui.KomoditasAdapter
 import com.capstone.pantauharga.ui.provinsi.ProvinsiActivity
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
+import androidx.core.widget.addTextChangedListener
 
 class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
@@ -40,7 +41,26 @@ class HomeFragment : Fragment() {
 
     private fun setupUI() {
         setupRecyclerView()
-        styleSearchBar()
+        setupSearchFunctionality()
+    }
+
+    private fun setupSearchFunctionality() {
+        binding.searchEditText.addTextChangedListener { editable ->
+            val query = editable.toString().trim()
+            filterCommodities(query)
+        }
+    }
+
+    private fun filterCommodities(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            viewModel.komoditas.value ?: emptyList()
+        } else {
+            viewModel.komoditas.value?.filter { commodity ->
+                commodity.namaKomoditas.contains(query, ignoreCase = true)
+            } ?: emptyList()
+        }
+
+        komoditasAdapter.submitList(filteredList)
     }
 
     private fun setupRecyclerView() {
@@ -51,17 +71,6 @@ class HomeFragment : Fragment() {
         binding.recyclerViewFinished.adapter = komoditasAdapter
     }
 
-    private fun styleSearchBar() {
-        val shapeModel = ShapeAppearanceModel.builder()
-            .setAllCornerSizes(30f)
-            .build()
-
-        @Suppress("DEPRECATION") val materialShapeDrawable = MaterialShapeDrawable(shapeModel).apply {
-            setStroke(3f, resources.getColor(R.color.blue))
-        }
-
-        binding.searchBar.background = materialShapeDrawable
-    }
 
     private fun observeViewModel() {
         viewModel.komoditas.observe(viewLifecycleOwner) { komoditas ->
@@ -78,7 +87,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
 
     private fun navigateToProvinceActivity(selectedCommodity: DataItem) {
         val intent = Intent(activity, ProvinsiActivity::class.java).apply {

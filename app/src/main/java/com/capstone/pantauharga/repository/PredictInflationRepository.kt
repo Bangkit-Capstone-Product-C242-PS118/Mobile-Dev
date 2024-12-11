@@ -19,6 +19,15 @@ class PredictInflationRepository(
     private val database: AppDatabase
 ) {
 
+    suspend fun deleteHargaKomoditasByIds(commodityId: String, provinceId: String) {
+        database.predictInflationDao().deleteHargaKomoditasByIds(commodityId, provinceId)
+    }
+
+    suspend fun deleteHargaNormalByIds(commodityId: String, provinceId: String) {
+        database.normalPriceDao().deleteHargaKomoditasByIds(commodityId, provinceId)
+    }
+
+
     suspend fun deleteByCommodityAndProvince(commodityName: String, provinceName: String) {
         return database.predictInflationDao().deleteByCommodityAndProvince(commodityName, provinceName)
     }

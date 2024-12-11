@@ -31,6 +31,9 @@ interface NormalPriceDao {
     @Query("SELECT DISTINCT provinceName FROM NormalPrice")
     fun getAllProvinceNamesWaktu(): LiveData<List<String>>
 
+    @Query("DELETE FROM NormalPrice WHERE komoditasId = :commodityId AND daerahId = :provinceId")
+    suspend fun deleteHargaKomoditasByIds(commodityId: String, provinceId: String)
+
 
     @Query("DELETE FROM NormalPrice WHERE commodityName = :commodityName AND provinceName = :provinceName")
     suspend fun deleteNormalByCommodityAndProvince(commodityName: String, provinceName: String)

@@ -43,4 +43,7 @@ interface HargaKomoditasDao {
     @Delete
     suspend fun deleteHargaKomoditas(prediction: HargaKomoditas)
 
+    @Query("DELETE FROM HargaKomoditas WHERE komoditasId = :commodityId AND daerahId = :provinceId")
+    suspend fun deleteHargaKomoditasByIds(commodityId: String, provinceId: String)
+
 }

@@ -1,7 +1,6 @@
 package com.capstone.pantauharga.data.retrofit
 
 import com.capstone.pantauharga.data.response.DaerahResponse
-import com.capstone.pantauharga.data.response.DetailResponse
 import com.capstone.pantauharga.data.response.EventResponse
 import com.capstone.pantauharga.data.response.HargaNormalResponse
 import com.capstone.pantauharga.data.response.InflasiResponse
@@ -22,7 +21,7 @@ interface ApiService {
         @Query("commodityId") commodityId: String
     ): DaerahResponse
 
-    @GET("harga_komoditas/{id_daerah}/{id_komoditas}")
+    @GET("harga_komoditas/{id_komoditas}/{id_daerah}")
     suspend fun getHargaKomoditas(
         @Path("id_daerah") idDaerah: String,
         @Path("id_komoditas") idKomoditas: String,

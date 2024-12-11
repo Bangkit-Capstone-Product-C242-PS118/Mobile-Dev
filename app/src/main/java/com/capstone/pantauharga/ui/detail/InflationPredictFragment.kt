@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.capstone.pantauharga.R
 import com.capstone.pantauharga.data.response.PricesKomoditasItem
 import com.capstone.pantauharga.databinding.FragmentInflationPredictBinding
 import com.github.mikephil.charting.data.Entry
@@ -18,6 +19,8 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
+import java.text.NumberFormat
+import java.util.Locale
 
 class InflationPredictFragment : Fragment() {
 
@@ -57,9 +60,15 @@ class InflationPredictFragment : Fragment() {
         viewModel.hargaKomoditas.observe(viewLifecycleOwner, Observer { data ->
             data?.let {
                 displayChart(it.prices)
-                binding.tvDescription.text = it.description
             }
         })
+
+        viewModel.inflationDataPredict.observe(viewLifecycleOwner, Observer { data ->
+            data?.let {
+                binding.tvDescription.text = it.deskrispi
+            }
+        })
+
 
         fetchInflationPredict(provinceId)
 
@@ -81,7 +90,9 @@ class InflationPredictFragment : Fragment() {
 
         viewModel.lastPrice.observe(viewLifecycleOwner, Observer {dataInflation ->
             dataInflation?.let {
-                binding.tvValueLastPrice.text = it.harga
+                val value = it.harga.toDouble()
+                val formattedValue = NumberFormat.getNumberInstance(Locale("id", "ID")).format(value)
+                binding.tvValueLastPrice.text = getString(R.string.hargarupiah, formattedValue)
             }
         })
 
@@ -115,7 +126,7 @@ class InflationPredictFragment : Fragment() {
         val entries = predictions.mapIndexed { index, item -> Entry(index.toFloat(), item.harga.toFloat()) }
         val labels = predictions.map { it.tanggalHarga }
 
-        val dataSet = LineDataSet(entries, "Harga Komoditas").apply {
+        val dataSet = LineDataSet(entries, "Harga").apply {
             color = Color.BLUE
             valueTextColor = Color.BLACK
             setDrawCircles(true)
@@ -136,6 +147,7 @@ class InflationPredictFragment : Fragment() {
             setPinchZoom(true)
 
             xAxis.apply {
+                labelRotationAngle = -45f
                 position = XAxis.XAxisPosition.BOTTOM
                 granularity = 1f
                 setDrawGridLines(false)

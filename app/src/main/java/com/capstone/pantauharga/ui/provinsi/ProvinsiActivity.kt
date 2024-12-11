@@ -7,82 +7,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import com.capstone.pantauharga.R
 import com.capstone.pantauharga.data.response.DataItem
+import com.capstone.pantauharga.data.response.DataItemDaerah
 import com.capstone.pantauharga.databinding.ActivityProvinceBinding
 import com.capstone.pantauharga.ui.detail.DetailPricesActivity
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 
-
-//class ProvinsiActivity : AppCompatActivity() {
-//
-//private lateinit var binding: ActivityProvinceBinding
-//    private val viewModel: ProvinceViewModel by viewModels()
-//    private lateinit var adapter: ProvinceAdapter
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        supportActionBar?.hide()
-//
-//        binding = ActivityProvinceBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        val komoditas = intent.getParcelableExtra<ListCommoditiesItem>("komoditas")
-//
-//        setupRecyclerView(komoditas)
-//        observeViewModel()
-//
-//        val searchBar = binding.searchBar
-//
-//        val shapeModel = ShapeAppearanceModel.builder()
-//            .setAllCornerSizes(30f)
-//            .build()
-//
-//        @Suppress("DEPRECATION") val materialShapeDrawable = MaterialShapeDrawable(shapeModel).apply {
-//            setStroke(3f, resources.getColor(R.color.blue))
-//        }
-//
-//        searchBar.background = materialShapeDrawable
-//
-//        val provinsiId = intent.getStringExtra("commodityId") ?: ""
-//        viewModel.getProvinces(provinsiId)
-//    }
-//
-//    private fun setupRecyclerView(komoditas: ListCommoditiesItem?) {
-//        adapter = ProvinceAdapter { selectedProvince ->
-//            val intent = Intent(this, DetailActivity::class.java).apply {
-//                putExtra("provinsi", selectedProvince)
-//                putExtra("komoditas", komoditas)
-//            }
-//            startActivity(intent)
-//        }
-//
-//        binding.rvProvince.apply {
-//            layoutManager = GridLayoutManager(this@ProvinsiActivity, 2)
-//            adapter = this@ProvinsiActivity.adapter
-//        }
-//    }
-//
-//
-//    private fun observeViewModel() {
-//        viewModel.provinsi.observe(this) { provinsi ->
-//            adapter.submitList(provinsi)
-//        }
-//
-//        viewModel.loading.observe(this) { isLoading ->
-//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//        }
-//
-//        viewModel.error.observe(this) { isError ->
-//            if (isError) {
-//                Toast.makeText(this@ProvinsiActivity, "Gagal memuat data.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
-//
-//}
 class ProvinsiActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProvinceBinding
     private val viewModel: ProvinceViewModel by viewModels()
@@ -103,11 +37,9 @@ class ProvinsiActivity : AppCompatActivity() {
         setupRecyclerView(komoditas)
         observeViewModel()
 
-        styleSearchBar()
+        setupSearchFunctionality()
         viewModel.getProvinces(provinsiId)
     }
-
-
 
     private fun setupRecyclerView(komoditas: DataItem?) {
         adapter = ProvinceAdapter { selectedProvince ->
@@ -140,16 +72,24 @@ class ProvinsiActivity : AppCompatActivity() {
         }
     }
 
-    private fun styleSearchBar() {
-        val searchBar = binding.searchBar
-        val shapeModel = ShapeAppearanceModel.builder()
-            .setAllCornerSizes(30f)
-            .build()
+    private fun setupSearchFunctionality() {
+        binding.searchEditText.addTextChangedListener { editable ->
+            val query = editable.toString().trim()
+            filterProvinces(query)
+        }
+    }
 
-        @Suppress("DEPRECATION") val materialShapeDrawable = MaterialShapeDrawable(shapeModel).apply {
-            setStroke(3f, resources.getColor(R.color.blue))
+    private fun filterProvinces(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            viewModel.provinsi.value ?: emptyList()
+        } else {
+            viewModel.provinsi.value?.filter { province ->
+                province.namaDaerah.contains(query, ignoreCase = true)
+            } ?: emptyList()
         }
 
-        searchBar.background = materialShapeDrawable
+        adapter.submitList(filteredList)
     }
+
+
 }

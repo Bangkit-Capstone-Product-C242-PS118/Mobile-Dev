@@ -83,23 +83,20 @@ class DetailPricesActivity : AppCompatActivity() {
 
     private fun handleInflationPredictBookmark() {
         CoroutineScope(Dispatchers.IO).launch {
+            val commodityId = intent.getParcelableExtra<DataItem>("komoditas")?.idKomoditas.toString()
+            val provinceId = intent.getParcelableExtra<DataItemDaerah>("provinsi")?.daerahId.toString()
 
             viewModel.hargaKomoditas.value?.let { inflationData ->
 
-                val commodityId = intent.getParcelableExtra<DataItem>("komoditas")?.idKomoditas.toString()
-                val provinceId = intent.getParcelableExtra<DataItemDaerah>("provinsi")?.daerahId.toString()
-
                 if (isHargaKomoditasSaved && currentPrediction != null) {
-                    viewModel.deletePrediction(currentPrediction!!)
+                    viewModel.deleteHargaKomoditasByIds(commodityId, provinceId)
                     isHargaKomoditasSaved = false
                     runOnUiThread {
                         updateBookmarkIcon()
                         Toast.makeText(this@DetailPricesActivity, "removed from bookmarks", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    viewModel.saveAllPredictions(
-                        commodityId, provinceId
-                    )
+                    viewModel.saveAllPredictions(commodityId, provinceId)
                     isHargaKomoditasSaved = true
                     runOnUiThread {
                         updateBookmarkIcon()
@@ -121,7 +118,7 @@ class DetailPricesActivity : AppCompatActivity() {
 
             viewModel.normalPriceData.value?.let { normalPriceData ->
                 if (isNormalPriceSaved && currentNormalPrice != null) {
-                    viewModel.deleteNormalPrice(currentNormalPrice!!)
+                    viewModel.deleteHargaNormalByIds(commodityId, provinceId)
                     isNormalPriceSaved = false
                     runOnUiThread {
                         updateBookmarkIcon()

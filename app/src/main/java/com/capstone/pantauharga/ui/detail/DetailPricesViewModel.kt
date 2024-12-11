@@ -64,6 +64,19 @@ class DetailPricesViewModel(private val repository: PredictInflationRepository) 
         }
     }
 
+    fun deleteHargaKomoditasByIds(commodityId: String, provinceId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+                repository.deleteHargaKomoditasByIds(commodityId, provinceId)
+        }
+    }
+
+    fun deleteHargaNormalByIds(commodityId: String, provinceId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteHargaNormalByIds(commodityId, provinceId)
+        }
+    }
+
+
 
     fun saveAllPredictions(commodityId: String, provinceId: String) {
         viewModelScope.launch {

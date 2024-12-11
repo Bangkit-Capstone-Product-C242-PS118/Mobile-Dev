@@ -26,6 +26,7 @@ class SaveFragment : Fragment() {
     private lateinit var hargaKomoditasAdapter: HargaKomoditasAdapter
     private lateinit var normalPricesAdapter: NormalPricesAdapter
     private lateinit var viewModel: SaveViewModel
+    private var currentItems = mutableListOf<Any>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,11 +46,17 @@ class SaveFragment : Fragment() {
         val factory = SaveViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[SaveViewModel::class.java]
 
-        loadHargaKomoditasData()
-        loadNormalPricesData()
-
         setupTabLayout()
         setupRecyclerView()
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
+        val currentTab = binding.tabLayout.selectedTabPosition
+        when (currentTab) {
+            0 -> loadHargaKomoditasData()
+            1 -> loadNormalPricesData()
+        }
     }
 
     private fun setupTabLayout() {
@@ -59,6 +66,7 @@ class SaveFragment : Fragment() {
 
             addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
+                    currentItems.clear()
                     when (tab?.position) {
                         0 -> {
                             binding.rvSave.adapter = hargaKomoditasAdapter
@@ -76,46 +84,71 @@ class SaveFragment : Fragment() {
         }
     }
 
-
     private fun loadHargaKomoditasData() {
         viewModel.commodityNames.observe(viewLifecycleOwner) { commodityNames ->
             viewModel.provinceNames.observe(viewLifecycleOwner) { provinceNames ->
                 val allItems = mutableListOf<HargaKomoditas>()
+                var loadedItemCount = 0
+                val totalExpectedItems = commodityNames.size * provinceNames.size
+
                 commodityNames.forEach { commodityName ->
                     provinceNames.forEach { provinceName ->
-                        viewModel.getPredictionByCommodityAndProvince(commodityName, provinceName).observe(viewLifecycleOwner) { data ->
-                            data?.let {
-                                allItems.add(it)
-                                hargaKomoditasAdapter.submitList(allItems)
+                        viewModel.getPredictionByCommodityAndProvince(commodityName, provinceName)
+                            .observe(viewLifecycleOwner) { data ->
+                                loadedItemCount++
+                                data?.let {
+                                    allItems.add(it)
+                                }
+
+                                if (loadedItemCount == totalExpectedItems) {
+                                    currentItems.clear()
+                                    currentItems.addAll(allItems)
+                                    hargaKomoditasAdapter.submitList(allItems.toList())
+                                    updateEmptyState(allItems.isEmpty())
+                                }
                             }
-                        }
                     }
                 }
             }
         }
     }
-
-
-
 
     private fun loadNormalPricesData() {
-        viewModel.commodityNamesNormal.observe(viewLifecycleOwner) { commodityName ->
+        viewModel.commodityNamesNormal.observe(viewLifecycleOwner) { commodityNames ->
             viewModel.provinceNamesNormal.observe(viewLifecycleOwner) { provinceNames ->
                 val allItems = mutableListOf<NormalPrice>()
-                commodityName.forEach { commodityName ->
+                var loadedItemCount = 0
+                val totalExpectedItems = commodityNames.size * provinceNames.size
+
+                commodityNames.forEach { commodityName ->
                     provinceNames.forEach { provinceName ->
-                        viewModel.getNormalPriceByCommodityAndProvince(commodityName, provinceName).observe(viewLifecycleOwner) { data ->
-                            data?.let {
-                                allItems.add(it)
-                                normalPricesAdapter.submitList(allItems)
+                        viewModel.getNormalPriceByCommodityAndProvince(commodityName, provinceName)
+                            .observe(viewLifecycleOwner) { data ->
+                                loadedItemCount++
+                                data?.let {
+                                    allItems.add(it)
+                                }
+
+                                if (loadedItemCount == totalExpectedItems) {
+                                    currentItems.clear()
+                                    currentItems.addAll(allItems)
+                                    normalPricesAdapter.submitList(allItems.toList())
+                                    updateEmptyState(allItems.isEmpty())
+                                }
                             }
-                        }
                     }
                 }
             }
         }
     }
 
+    private fun updateEmptyState(isEmpty: Boolean) {
+        if (isEmpty) {
+            binding.rvSave.visibility = View.GONE
+        } else {
+            binding.rvSave.visibility = View.VISIBLE
+        }
+    }
 
     private fun setupRecyclerView() {
         hargaKomoditasAdapter = HargaKomoditasAdapter { hargaKomoditas ->
@@ -134,7 +167,8 @@ class SaveFragment : Fragment() {
         binding.rvSave.adapter = hargaKomoditasAdapter
     }
 
-
-
-
+    override fun onResume() {
+        super.onResume()
+        loadInitialData()
+    }
 }
