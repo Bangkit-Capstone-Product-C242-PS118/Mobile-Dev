@@ -63,20 +63,24 @@ class InflationPredictFragment : Fragment() {
             }
         })
 
-        viewModel.inflationDataPredict.observe(viewLifecycleOwner, Observer { data ->
+        viewModel.inflationDataPredict.observe(viewLifecycleOwner) { data ->
             data?.let {
                 binding.tvDescription.text = it.deskrispi
             }
-        })
+        }
 
 
         fetchInflationPredict(provinceId)
 
-        viewModel.inflationDataPredict.observe(viewLifecycleOwner, Observer {dataPredict ->
-            dataPredict?.let {
-                binding.tvValuePrediction.text = it.prediksiInflasi
+        viewModel.inflationDataPredict.observe(viewLifecycleOwner, Observer { dataPredict ->
+            if (dataPredict != null) {
+                Log.d("DataPredict", "Received data: ${dataPredict.prediksiInflasi}")
+                binding.tvValuePrediction.text = dataPredict.prediksiInflasi
+            } else {
+                Log.d("DataPredict", "Data is null")
             }
         })
+
 
         fetchInflation(provinceId)
 
@@ -126,7 +130,7 @@ class InflationPredictFragment : Fragment() {
         val entries = predictions.mapIndexed { index, item -> Entry(index.toFloat(), item.harga.toFloat()) }
         val labels = predictions.map { it.tanggalHarga }
 
-        val dataSet = LineDataSet(entries, "Harga").apply {
+        val dataSet = LineDataSet(entries, "Price").apply {
             color = Color.BLUE
             valueTextColor = Color.BLACK
             setDrawCircles(true)

@@ -80,7 +80,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
-            android:text="Inflation Predict"
+            android:text="Prices"
             android:textColor="@android:color/white" />
 
         <com.capstone.pantauharga.custom.CustomButtonSecondary

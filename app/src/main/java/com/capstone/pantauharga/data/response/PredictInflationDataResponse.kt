@@ -16,7 +16,7 @@ data class PredictInflationDataResponse(
 
 data class Data(
 
-	@field:SerializedName("Prediksi Inflasi")
+	@field:SerializedName("prediksi_inflasi")
 	val prediksiInflasi: String,
 
 	@field:SerializedName("deskripsi")

@@ -28,7 +28,7 @@ interface ApiService {
         @Query("timeRange") timeRange: Int
     ): InflasiResponse
 
-    @GET("harga_normal/{id_daerah}/{id_komoditas}")
+    @GET("harga_normal/{id_komoditas}/{id_daerah}")
     suspend fun getHargaNormal(
         @Path("id_daerah") idDaerah: String,
         @Path("id_komoditas") idKomoditas: String,
