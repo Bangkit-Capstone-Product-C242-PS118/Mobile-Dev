@@ -13,44 +13,6 @@ import retrofit2.Response
 import java.io.IOException
 
 class HomeViewModel : ViewModel() {
-//    private val _komoditas = MutableLiveData<List<KomoditasResponseItem>>()
-//    val komoditas: LiveData<List<KomoditasResponseItem>> = _komoditas
-//
-//    private val _loading = MutableLiveData<Boolean>()
-//    val loading: LiveData<Boolean> get() = _loading
-//
-//    private val _error = MutableLiveData<Boolean>()
-//    val error: LiveData<Boolean> = _error
-//
-//    init {
-//        komoditas()
-//    }
-//
-//    private fun komoditas() {
-//        _loading.value = true
-//
-//        viewModelScope.launch {
-//            try {
-//                val responseKomoditas = ApiConfig.getApiService().getCommodities()
-//                _loading.value = false
-//                if (responseKomoditas.komoditasResponse.isNullOrEmpty()) {
-//                    setError(true)
-//                    println("Empty data received from API")
-//                } else {
-//                    _komoditas.postValue(responseKomoditas.komoditasResponse)
-//                }
-//            } catch (e: Exception) {
-//                _loading.value = false
-//                setError(true)
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-//
-//
-//    fun setError(value: Boolean) {
-//        _error.value = value
-//    }
 
     private val _komoditas = MutableLiveData<List<DataItem>>()
     val komoditas: LiveData<List<DataItem>> = _komoditas

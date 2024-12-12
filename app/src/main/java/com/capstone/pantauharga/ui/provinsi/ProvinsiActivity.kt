@@ -4,18 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
-import com.capstone.pantauharga.R
 import com.capstone.pantauharga.data.response.DataItem
-import com.capstone.pantauharga.data.response.DataItemDaerah
 import com.capstone.pantauharga.databinding.ActivityProvinceBinding
 import com.capstone.pantauharga.ui.detail.DetailPricesActivity
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.ShapeAppearanceModel
 
 class ProvinsiActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProvinceBinding

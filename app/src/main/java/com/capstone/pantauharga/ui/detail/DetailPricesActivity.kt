@@ -72,7 +72,7 @@ class DetailPricesActivity : AppCompatActivity() {
         }
 
 
-
+        binding.btnBookmark.setOnClickListener(null)
         binding.btnBookmark.setOnClickListener {
             when (viewModel.activeFragment.value) {
                 "InflationPredict" -> handleInflationPredictBookmark()

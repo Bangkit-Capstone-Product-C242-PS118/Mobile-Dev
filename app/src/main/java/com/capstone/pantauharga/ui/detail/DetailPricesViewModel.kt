@@ -58,15 +58,10 @@ class DetailPricesViewModel(private val repository: PredictInflationRepository) 
 
     private val timeRanges = listOf(1, 2, 3, 4, 5)
 
-    fun saveInflation(idDaerah: String, inflasi: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveInflasi(idDaerah, inflasi)
-        }
-    }
 
     fun deleteHargaKomoditasByIds(commodityId: String, provinceId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-                repository.deleteHargaKomoditasByIds(commodityId, provinceId)
+            repository.deleteHargaKomoditasByIds(commodityId, provinceId)
         }
     }
 
@@ -143,25 +138,11 @@ class DetailPricesViewModel(private val repository: PredictInflationRepository) 
         }
     }
 
-    fun getPredictionById(id: Int): LiveData<HargaKomoditas?> {
-        return repository.getPredictionById(id)
-    }
-
-    suspend fun getPredictInflation(daerahId: String): PredictInflationDataResponse {
-        return repository.getPredictInflation(daerahId)
-    }
-
-    suspend fun  getDataInflation(daerahId: String): InflationDataResponse {
-        return repository.getDataInflation(daerahId)
-    }
 
     fun getPredictionByCommodityAndProvince(commodityName: String, provinceName: String): LiveData<HargaKomoditas?> {
         return repository.getPredictionByCommodityAndProvince(commodityName, provinceName)
     }
 
-    fun getAllPrediction(): LiveData<List<HargaKomoditas>> {
-        return repository.getAllPrediction()
-    }
 
     fun savePrediction(
         komoditasId: String,
@@ -176,18 +157,6 @@ class DetailPricesViewModel(private val repository: PredictInflationRepository) 
         }
     }
 
-    fun deleteByCommodityAndProvince(commodityName: String, provinceName: String) {
-        viewModelScope.launch {
-            repository.deleteByCommodityAndProvince(commodityName, provinceName)
-        }
-    }
-
-
-    fun deletePrediction(prediction: HargaKomoditas) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deletePrediction(prediction)
-        }
-    }
 
     //normalprice
 
@@ -198,9 +167,6 @@ class DetailPricesViewModel(private val repository: PredictInflationRepository) 
         return repository.getNormalPriceByCommodityAndProvince(commodityName, provinceName)
     }
 
-    fun getAllNormalPrice(): LiveData<List<NormalPrice>> {
-        return repository.getAllNormalPrices()
-    }
 
     fun saveNormalPrice(
         komoditasId: String,
@@ -215,11 +181,6 @@ class DetailPricesViewModel(private val repository: PredictInflationRepository) 
         }
     }
 
-    fun deleteNormalPrice(normalPrice: NormalPrice) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteNormalPrice(normalPrice)
-        }
-    }
 
     fun setLocation(provinsi: DataItemDaerah) {
         _location.value = provinsi.namaDaerah

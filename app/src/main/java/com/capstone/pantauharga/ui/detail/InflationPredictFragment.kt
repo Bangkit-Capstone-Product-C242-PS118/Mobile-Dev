@@ -47,9 +47,9 @@ class InflationPredictFragment : Fragment() {
 
         setupChart()
 
-        viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        })
+        }
 
         viewModel.error.observe(viewLifecycleOwner) { isError ->
             if (isError) {
@@ -57,11 +57,11 @@ class InflationPredictFragment : Fragment() {
             }
         }
 
-        viewModel.hargaKomoditas.observe(viewLifecycleOwner, Observer { data ->
+        viewModel.hargaKomoditas.observe(viewLifecycleOwner) { data ->
             data?.let {
                 displayChart(it.prices)
             }
-        })
+        }
 
         viewModel.inflationDataPredict.observe(viewLifecycleOwner) { data ->
             data?.let {
@@ -72,33 +72,34 @@ class InflationPredictFragment : Fragment() {
 
         fetchInflationPredict(provinceId)
 
-        viewModel.inflationDataPredict.observe(viewLifecycleOwner, Observer { dataPredict ->
+        viewModel.inflationDataPredict.observe(viewLifecycleOwner) { dataPredict ->
             if (dataPredict != null) {
                 Log.d("DataPredict", "Received data: ${dataPredict.prediksiInflasi}")
                 binding.tvValuePrediction.text = dataPredict.prediksiInflasi
             } else {
                 Log.d("DataPredict", "Data is null")
             }
-        })
+        }
 
 
         fetchInflation(provinceId)
 
-        viewModel.inflation.observe(viewLifecycleOwner, Observer {dataInflation ->
+        viewModel.inflation.observe(viewLifecycleOwner) { dataInflation ->
             dataInflation?.let {
                 binding.tvValueInflation.text = it.tingkatInflasi
             }
-        })
+        }
 
         fetchLastPrice(provinceId, commodityId)
 
-        viewModel.lastPrice.observe(viewLifecycleOwner, Observer {dataInflation ->
+        viewModel.lastPrice.observe(viewLifecycleOwner) { dataInflation ->
             dataInflation?.let {
                 val value = it.harga.toDouble()
-                val formattedValue = NumberFormat.getNumberInstance(Locale("id", "ID")).format(value)
+                val formattedValue =
+                    NumberFormat.getNumberInstance(Locale("id", "ID")).format(value)
                 binding.tvValueLastPrice.text = getString(R.string.hargarupiah, formattedValue)
             }
-        })
+        }
 
 
         binding.btn1m.setOnClickListener { fetchInflationData(1) }
