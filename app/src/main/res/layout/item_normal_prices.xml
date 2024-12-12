@@ -50,8 +50,6 @@
                     style="@style/DetailStyle1"
                     android:text="Jawa Barat" />
 
-
-
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -51,11 +51,24 @@ class NormalPriceFragment : Fragment()  {
 
         Log.d("NormalPriceFragment", "Commodity ID: $commodityId, Province ID: $provinceId")
 
-        setupChart()
+        viewModell.getThemeSettings().observe(viewLifecycleOwner) { isDarkMode ->
+            setupChart(isDarkMode)
+            viewModel.normalPriceData.observe(viewLifecycleOwner) { data ->
+                data?.let {
+                    displayChart(it.prices, isDarkMode)
+                }
+            }
+        }
 
-        viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
+        viewModel.normalPriceData.observe(viewLifecycleOwner) { data ->
+            data?.let {
+                binding.tvDescription.text = it.description
+            }
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        })
+        }
 
         viewModel.error.observe(viewLifecycleOwner) { isError ->
             if (isError) {
@@ -92,13 +105,6 @@ class NormalPriceFragment : Fragment()  {
                 }
             }
         }
-
-        viewModel.normalPriceData.observe(viewLifecycleOwner, Observer { data ->
-            data?.let {
-                displayChart(it.prices)
-                binding.tvDescription.text = it.description
-            }
-        })
 
         binding.btn1m.setOnClickListener { fetchNormalPriceData(1) }
         binding.btn3m.setOnClickListener { fetchNormalPriceData(2) }
@@ -138,7 +144,13 @@ class NormalPriceFragment : Fragment()  {
         binding.chartNormalPrice.invalidate()
     }
 
-    private fun setupChart() {
+    private fun setupChart(isDarkMode: Boolean) {
+        val textColor = if (isDarkMode) {
+            ResourcesCompat.getColor(resources, R.color.white, null)
+        } else {
+            ResourcesCompat.getColor(resources, R.color.black, null)
+        }
+
         with(binding.chartNormalPrice) {
             description.isEnabled = false
             setTouchEnabled(true)
@@ -146,21 +158,27 @@ class NormalPriceFragment : Fragment()  {
             setScaleEnabled(true)
             setPinchZoom(true)
 
-
             xAxis.apply {
                 labelRotationAngle = -45f
-                position = XAxis.XAxisPosition.BOTTOM
+                position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
                 granularity = 1f
                 setDrawGridLines(false)
+                this.textColor = textColor
             }
 
             axisRight.apply {
                 isEnabled = true
                 setDrawLabels(true)
-                setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+                setPosition(com.github.mikephil.charting.components.YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+                this.textColor = textColor
             }
 
-            axisLeft.isEnabled = false
+            axisLeft.apply {
+                isEnabled = false
+                this.textColor = textColor
+            }
+
+            legend.textColor = textColor
         }
     }
 }

@@ -158,8 +158,6 @@ class DetailPricesViewModel(private val repository: PredictInflationRepository) 
     }
 
 
-    //normalprice
-
     fun getNormalPriceByCommodityAndProvince(
         commodityName: String,
         provinceName: String,
