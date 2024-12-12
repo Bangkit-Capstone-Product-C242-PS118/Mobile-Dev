@@ -51,7 +51,37 @@ class NormalPriceFragment : Fragment()  {
 
         viewModel.error.observe(viewLifecycleOwner) { isError ->
             if (isError) {
-                Toast.makeText(context, "Failed to load normal price data", Toast.LENGTH_SHORT).show()
+                val progressBar = binding.progressBar
+                val scrollView = binding.scrollView
+                val noConnectionIcon = binding.noConnectionIcon
+                val retryButton = binding.retryButton
+                val tvNetwork = binding.tvNetwork
+
+                if (isError) {
+                    progressBar.visibility = View.GONE
+                    scrollView.visibility = View.GONE
+                    noConnectionIcon.visibility = View.VISIBLE
+                    retryButton.visibility = View.VISIBLE
+                    tvNetwork.visibility = View.VISIBLE
+
+                    retryButton.setOnClickListener {
+                        fetchNormalPriceData(1)
+                        fetchNormalPriceData(2)
+                        fetchNormalPriceData(3)
+                        fetchNormalPriceData(4)
+                        fetchNormalPriceData(5)
+                        noConnectionIcon.visibility = View.GONE
+                        retryButton.visibility = View.GONE
+                        tvNetwork.visibility = View.GONE
+                        progressBar.visibility = View.VISIBLE
+                    }
+                } else {
+                    noConnectionIcon.visibility = View.GONE
+                    retryButton.visibility = View.GONE
+                    progressBar.visibility = View.GONE
+                    tvNetwork.visibility = View.GONE
+                    scrollView.visibility = View.VISIBLE
+                }
             }
         }
 

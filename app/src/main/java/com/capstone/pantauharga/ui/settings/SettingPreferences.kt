@@ -18,7 +18,6 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 class SettingPreferences private constructor(private val dataStore: DataStore<Preferences>) {
 
     private val themeKey = booleanPreferencesKey("theme_setting")
-    private val reminderKey = booleanPreferencesKey("daily_reminder_setting")
 
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
@@ -44,19 +43,4 @@ class SettingPreferences private constructor(private val dataStore: DataStore<Pr
             }
         }
     }
-
-    fun saveDailyReminderSetting(isEnabled: Boolean) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dataStore.edit { preferences ->
-                preferences[reminderKey] = isEnabled
-            }
-        }
-    }
-
-    fun getDailyReminderSetting(): Flow<Boolean> {
-        return dataStore.data.map { preferences ->
-            preferences[reminderKey] ?: false
-        }
-    }
-
 }
