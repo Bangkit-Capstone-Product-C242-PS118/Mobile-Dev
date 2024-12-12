@@ -8,11 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import android.graphics.Color
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.capstone.pantauharga.R
 
 import com.capstone.pantauharga.data.response.PricesNormalItem
 import com.capstone.pantauharga.databinding.FragmentNormalPriceBinding
+import com.capstone.pantauharga.ui.settings.SettingPreferences
+import com.capstone.pantauharga.ui.settings.SettingViewModelFactory
+import com.capstone.pantauharga.ui.settings.SettingsViewModel
+import com.capstone.pantauharga.ui.settings.dataStore
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -23,6 +29,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 class NormalPriceFragment : Fragment()  {
     private lateinit var binding: FragmentNormalPriceBinding
     private val viewModel: DetailPricesViewModel by activityViewModels()
+    private val viewModell: SettingsViewModel by activityViewModels { SettingViewModelFactory(
+        SettingPreferences.getInstance(requireContext().dataStore)) }
     private var commodityId: String = ""
     private var provinceId: String = ""
 
@@ -108,13 +116,19 @@ class NormalPriceFragment : Fragment()  {
         viewModel.fetchNormalPrices(commodityId, provinceId, timeRange)
     }
 
-    private fun displayChart(prices: List<PricesNormalItem>) {
+    private fun displayChart(prices: List<PricesNormalItem>, isDarkMode: Boolean) {
+        val textColor = if (isDarkMode) {
+            ResourcesCompat.getColor(resources, R.color.white, null)
+        } else {
+            ResourcesCompat.getColor(resources, R.color.black, null)
+        }
+
         val entries = prices.mapIndexed { index, item -> Entry(index.toFloat(), item.hargaNormal.toFloat()) }
         val labels = prices.map { it.tanggalHarga }
 
-        val dataSet = LineDataSet(entries, "Normal Price").apply {
+        val dataSet = LineDataSet(entries, " Normal Price").apply {
             color = Color.BLUE
-            valueTextColor = Color.BLACK
+            valueTextColor = textColor
             setDrawCircles(true)
             setDrawFilled(true)
         }

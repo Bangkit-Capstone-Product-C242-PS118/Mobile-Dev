@@ -226,7 +226,7 @@ class InflationPredictFragment : Fragment() {
                 this.textColor = textColor
             }
 
-            legend.textColor = textColor // Jika menggunakan legenda
+            legend.textColor = textColor
         }
     }
 
