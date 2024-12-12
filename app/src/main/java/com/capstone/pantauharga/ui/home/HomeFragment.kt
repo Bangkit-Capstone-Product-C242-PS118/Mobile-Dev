@@ -10,13 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstone.pantauharga.R
 import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.databinding.FragmentHomeBinding
 import com.capstone.pantauharga.ui.KomoditasAdapter
 import com.capstone.pantauharga.ui.provinsi.ProvinsiActivity
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.ShapeAppearanceModel
 import androidx.core.widget.addTextChangedListener
 
 class HomeFragment : Fragment() {
@@ -82,10 +79,35 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { isError ->
+            val progressBar = binding.progressBar
+            val recyclerView = binding.recyclerViewFinished
+            val noConnectionIcon = binding.noConnectionIcon
+            val retryButton = binding.retryButton
+            val tvNetwork = binding.tvNetwork
+
             if (isError) {
-                Toast.makeText(context, "Failed to load data", Toast.LENGTH_SHORT).show()
+                progressBar.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                noConnectionIcon.visibility = View.VISIBLE
+                retryButton.visibility = View.VISIBLE
+                tvNetwork.visibility = View.VISIBLE
+
+                retryButton.setOnClickListener {
+                    viewModel.komoditas()
+                    noConnectionIcon.visibility = View.GONE
+                    retryButton.visibility = View.GONE
+                    tvNetwork.visibility = View.GONE
+                    progressBar.visibility = View.VISIBLE
+                }
+            } else {
+                noConnectionIcon.visibility = View.GONE
+                retryButton.visibility = View.GONE
+                progressBar.visibility = View.GONE
+                tvNetwork.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
             }
         }
+
     }
 
     private fun navigateToProvinceActivity(selectedCommodity: DataItem) {

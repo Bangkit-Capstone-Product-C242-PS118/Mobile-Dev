@@ -57,6 +57,9 @@ class ProvinsiActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        val komoditas = intent.getParcelableExtra<DataItem>("komoditas")
+        val provinsiId = komoditas?.idKomoditas.toString()
+
         viewModel.provinsi.observe(this) { provinsiList ->
             adapter.submitList(provinsiList)
         }
@@ -67,7 +70,33 @@ class ProvinsiActivity : AppCompatActivity() {
 
         viewModel.error.observe(this) { isError ->
             if (isError) {
-                Toast.makeText(this@ProvinsiActivity, "Gagal memuat data.", Toast.LENGTH_SHORT).show()
+                val progressBar = binding.progressBar
+                val recyclerView = binding.rvProvince
+                val noConnectionIcon = binding.noConnectionIcon
+                val retryButton = binding.retryButton
+                val tvNetwork = binding.tvNetwork
+
+                if (isError) {
+                    progressBar.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    noConnectionIcon.visibility = View.VISIBLE
+                    retryButton.visibility = View.VISIBLE
+                    tvNetwork.visibility = View.VISIBLE
+
+                    retryButton.setOnClickListener {
+                        viewModel.getProvinces(provinsiId)
+                        noConnectionIcon.visibility = View.GONE
+                        retryButton.visibility = View.GONE
+                        tvNetwork.visibility = View.GONE
+                        progressBar.visibility = View.VISIBLE
+                    }
+                } else {
+                    noConnectionIcon.visibility = View.GONE
+                    retryButton.visibility = View.GONE
+                    progressBar.visibility = View.GONE
+                    tvNetwork.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }
             }
         }
     }

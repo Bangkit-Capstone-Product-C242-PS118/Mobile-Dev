@@ -1,5 +1,6 @@
 package com.capstone.pantauharga.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.capstone.pantauharga.data.response.DataItem
 import com.capstone.pantauharga.data.retrofit.ApiConfig
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import retrofit2.Response
+import java.io.IOException
 
 class HomeViewModel : ViewModel() {
 //    private val _komoditas = MutableLiveData<List<KomoditasResponseItem>>()
@@ -69,15 +72,27 @@ class HomeViewModel : ViewModel() {
             try {
                 val responseKomoditas = ApiConfig.getApiService().getCommodities()
                 _loading.value = false
-                if (responseKomoditas.data.isNullOrEmpty()) {
+                if (responseKomoditas.data.isEmpty()) {
                     setError(true)
-                    println("Empty data received from API")
+                    Log.d("KomoditasViewModel", "Empty data received from API")
                 } else {
+                    setError(false)
                     _komoditas.postValue(responseKomoditas.data)
                 }
+            } catch (e: IOException) {
+                _loading.value = false
+                setError(true)
+                Log.d("KomoditasViewModel", "Network error: Unable to reach the server. Check your internet connection. Exception: ${e.message}")
+                e.printStackTrace()
+            } catch (e: HttpException) {
+                _loading.value = false
+                setError(true)
+                Log.d("KomoditasViewModel", "HTTP error: Received HTTP status ${e.code()}. Message: ${e.message()}")
+                e.printStackTrace()
             } catch (e: Exception) {
                 _loading.value = false
                 setError(true)
+                Log.d("KomoditasViewModel", "Unexpected error occurred: ${e.message}")
                 e.printStackTrace()
             }
         }

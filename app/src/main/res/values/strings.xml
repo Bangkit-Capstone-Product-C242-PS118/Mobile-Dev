@@ -22,4 +22,5 @@
     <string name="cari_bahan_komoditas">Cari Bahan Komoditas</string>
     <string name="rupiah">Rp%1$s</string>
     <string name="hargarupiah">Rp%1$s</string>
+    <string name="network">Connection Failed</string>
 </resources>
