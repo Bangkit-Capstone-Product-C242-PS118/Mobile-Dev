@@ -37,12 +37,6 @@ class PredictInflationRepository(
     }
 
 
-
-
-    fun getKomoditasByTimeRange(timeRange: Int): LiveData<List<HargaKomoditas>> {
-        return database.predictInflationDao().getHargaKomoditasByTimeRange(timeRange)
-    }
-
     fun getWaktu(komoditasId: String, daerahId: String, timeRange: Int): LiveData<HargaKomoditas?> {
         return database.predictInflationDao().getWaktu(komoditasId, daerahId, timeRange)
     }
@@ -66,10 +60,6 @@ class PredictInflationRepository(
 
     fun getAllProvinceNamesNormal(): LiveData<List<String>> {
         return database.normalPriceDao().getAllProvinceNamesWaktu()
-    }
-
-    fun getPredictionById(id: Int): LiveData<HargaKomoditas?> {
-        return database.predictInflationDao().getHargaKomoditasById(id)
     }
 
     fun getPredictionByCommodityAndProvince(commodityName: String, provinceName: String): LiveData<HargaKomoditas?>{
@@ -102,11 +92,6 @@ class PredictInflationRepository(
     }
 
 
-
-    suspend fun deletePrediction(prediction: HargaKomoditas) {
-        database.predictInflationDao().deleteHargaKomoditas(prediction)
-    }
-
     suspend fun getHargaKomoditas(
         daerahId: String,
         komoditasId: String,
@@ -114,7 +99,6 @@ class PredictInflationRepository(
     ): InflasiResponse {
         return apiService.getHargaKomoditas(daerahId, komoditasId, timeRange)
     }
-
 
 
     fun getAllNormalPrices(): LiveData<List<NormalPrice>> {
@@ -146,10 +130,6 @@ class PredictInflationRepository(
         database.normalPriceDao().insertNormalPrice(normalPriceEntity)
     }
 
-    suspend fun deleteNormalPrice(normalPrice: NormalPrice) {
-        database.normalPriceDao().deleteNormalPrice(normalPrice)
-    }
-
 
     suspend fun getNormalPrices(
         commodityId: String,
@@ -163,17 +143,6 @@ class PredictInflationRepository(
         daerahId: String
     ) : PredictInflationDataResponse {
         return apiService.getPredictInflation(daerahId)
-    }
-
-    suspend fun saveInflasi(
-        daerahId: String,
-        inflasi: String
-    ){
-        val inflasiEntity = Inflasi(
-            daerahId = daerahId,
-            inflasi = inflasi
-        )
-        database.inflasiDao().insertInflationData(inflasiEntity)
     }
 
     suspend fun  getDataInflation(

@@ -95,6 +95,7 @@ class NormalPriceFragment : Fragment()  {
                         retryButton.visibility = View.GONE
                         tvNetwork.visibility = View.GONE
                         progressBar.visibility = View.VISIBLE
+                        scrollView.visibility = View.VISIBLE
                     }
                 } else {
                     noConnectionIcon.visibility = View.GONE

@@ -79,11 +79,12 @@ class ProvinsiActivity : AppCompatActivity() {
                     tvNetwork.visibility = View.VISIBLE
 
                     retryButton.setOnClickListener {
+                        progressBar.visibility = View.VISIBLE
                         viewModel.getProvinces(provinsiId)
                         noConnectionIcon.visibility = View.GONE
                         retryButton.visibility = View.GONE
                         tvNetwork.visibility = View.GONE
-                        progressBar.visibility = View.VISIBLE
+                        recyclerView.visibility = View.VISIBLE
                     }
                 } else {
                     noConnectionIcon.visibility = View.GONE
