@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@+id/navigation_home">
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/navigation_home"-->
-    <!--        android:name="com.capstone.pantauharga.ui.home.HomeFragment"-->
-    <!--        android:label="@string/title_home"-->
-    <!--        tools:layout="@layout/fragment_home" />-->
-
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.capstone.pantauharga.ui.home.HomeFragment"
@@ -29,11 +23,6 @@
         android:name="com.capstone.pantauharga.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
-
-    <!--    <fragment-->
-    <!--        android:id="@+id/provinceFragment"-->
-    <!--        android:name="com.capstone.pantauharga.ui.provinsi.ProvinceActivity"-->
-    <!--        tools:layout="@layout/activity_province" />-->
 
 
 </navigation>
