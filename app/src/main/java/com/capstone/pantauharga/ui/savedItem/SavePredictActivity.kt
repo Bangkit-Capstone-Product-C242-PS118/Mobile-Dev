@@ -63,7 +63,7 @@ class SavePredictActivity : AppCompatActivity() {
         }
         val labels = predictions.map { it.tanggalHarga }
 
-        val dataSet = LineDataSet(entries, "Inflasi").apply {
+        val dataSet = LineDataSet(entries, "Harga").apply {
             color = Color.BLUE
             valueTextColor = Color.BLACK
             setDrawCircles(true)
