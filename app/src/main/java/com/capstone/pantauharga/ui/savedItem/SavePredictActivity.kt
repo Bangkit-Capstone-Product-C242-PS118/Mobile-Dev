@@ -151,7 +151,7 @@ class SavePredictActivity : AppCompatActivity() {
         Log.d("SavePredictActivity", "Button clicked: timeRange = $timeRange")
 
         viewModel.getWaktu(komoditasid, provinsiId, timeRange).observe(this) { hargaKomoditas ->
-            if (hargaKomoditas != null && hargaKomoditas.predictions != null) {
+            if (hargaKomoditas?.predictions != null) {
                 Log.d("SavePredictActivity", "Data received: ${hargaKomoditas.predictions}")
                 displayChart(hargaKomoditas.predictions)
             } else {

@@ -77,10 +77,6 @@ class InflationPredictFragment : Fragment() {
                         fetchInflation(provinceId)
                         fetchLastPrice(provinceId, commodityId)
                         fetchInflationData(1)
-                        fetchInflationData(2)
-                        fetchInflationData(3)
-                        fetchInflationData(4)
-                        fetchInflationData(5)
                         noConnectionIcon.visibility = View.GONE
                         retryButton.visibility = View.GONE
                         tvNetwork.visibility = View.GONE

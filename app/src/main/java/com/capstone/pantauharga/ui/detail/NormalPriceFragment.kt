@@ -87,10 +87,6 @@ class NormalPriceFragment : Fragment()  {
 
                     retryButton.setOnClickListener {
                         fetchNormalPriceData(1)
-                        fetchNormalPriceData(2)
-                        fetchNormalPriceData(3)
-                        fetchNormalPriceData(4)
-                        fetchNormalPriceData(5)
                         noConnectionIcon.visibility = View.GONE
                         retryButton.visibility = View.GONE
                         tvNetwork.visibility = View.GONE
